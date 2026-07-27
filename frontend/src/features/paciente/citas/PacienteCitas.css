@@ -1,0 +1,89 @@
+.patient-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0 18px;
+}
+
+.patient-tabs button {
+  border: 1px solid var(--outline);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.patient-tabs button.active {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.patient-appointment-list {
+  display: grid;
+}
+
+.patient-appointment-card {
+  align-items: center;
+  border-bottom: 1px solid var(--outline);
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 150px minmax(0, 1fr) auto;
+  padding: 16px 0;
+}
+
+.patient-appointment-card:first-child {
+  padding-top: 0;
+}
+
+.patient-appointment-card:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.patient-appointment-date,
+.patient-appointment-info {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.patient-appointment-date svg {
+  color: var(--primary);
+}
+
+.patient-appointment-date strong {
+  color: var(--primary);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.patient-appointment-date span,
+.patient-appointment-info span,
+.patient-appointment-info small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.patient-appointment-info strong {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px) {
+  .patient-tabs,
+  .patient-tabs button {
+    width: 100%;
+  }
+
+  .patient-appointment-card {
+    grid-template-columns: 1fr;
+  }
+
+  .patient-appointment-card .badge {
+    justify-self: start;
+  }
+}

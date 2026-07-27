@@ -9,6 +9,7 @@ import java.util.UUID;
 @Repository
 public interface AdjuntoRepository extends JpaRepository<Adjunto, UUID> {
     List<Adjunto> findByPacienteId(UUID pacienteId);
+    List<Adjunto> findByPacienteIdOrderByCreatedAtDesc(UUID pacienteId);
     List<Adjunto> findByCitaId(UUID citaId);
     List<Adjunto> findByOrganizacionId(UUID organizacionId);
     List<Adjunto> findByOrganizacionIdAndNotificarTrue(UUID organizacionId);

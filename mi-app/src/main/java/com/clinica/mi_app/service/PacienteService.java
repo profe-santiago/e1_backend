@@ -80,4 +80,12 @@ public class PacienteService {
     public void eliminar(UUID id) {
         repo.deleteById(id);
     }
+
+    @org.springframework.transaction.annotation.Transactional
+    public PacienteResponse toggleActivo(UUID id) {
+        Paciente p = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Paciente", id.toString()));
+        p.setActivo(!Boolean.TRUE.equals(p.getActivo()));
+        return PacienteMapper.toResponse(repo.save(p));
+    }
 }

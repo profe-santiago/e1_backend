@@ -13,6 +13,7 @@ import com.clinica.mi_app.exception.ResourceNotFoundException;
 import com.clinica.mi_app.model.Organizacion;
 import com.clinica.mi_app.model.Usuario;
 import com.clinica.mi_app.repository.OrganizacionRepository;
+import com.clinica.mi_app.repository.PacienteRepository;
 import com.clinica.mi_app.repository.UsuarioRepository;
 import com.clinica.mi_app.security.JwtUtil;
 
@@ -22,17 +23,20 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final UsuarioRepository usuarioRepository;
     private final OrganizacionRepository organizacionRepository;
+    private final PacienteRepository pacienteRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
     public AuthService(AuthenticationManager authenticationManager,
                        UsuarioRepository usuarioRepository,
                        OrganizacionRepository organizacionRepository,
+                       PacienteRepository pacienteRepository,
                        BCryptPasswordEncoder passwordEncoder,
                        JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
         this.usuarioRepository = usuarioRepository;
         this.organizacionRepository = organizacionRepository;
+        this.pacienteRepository = pacienteRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
     }
@@ -45,8 +49,8 @@ public class AuthService {
         Usuario usuario = usuarioRepository.findByEmail(req.getEmail())
             .orElseThrow(() -> new ResourceNotFoundException("Usuario", req.getEmail()));
         String token = jwtUtil.generateToken(usuario);
-        return new AuthResponse(token, usuario.getId(), usuario.getEmail(),
-            usuario.getRol(), usuario.getOrganizacion().getId());
+        return new AuthResponse(token, usuario.getId(), usuario.getEmail(), getNombre(usuario),
+            usuario.getRol(), usuario.getOrganizacion().getId(), getMedicoId(usuario), getPacienteId(usuario));
     }
 
     @Transactional
@@ -66,7 +70,32 @@ public class AuthService {
         Usuario saved = usuarioRepository.save(usuario);
 
         String token = jwtUtil.generateToken(saved);
-        return new AuthResponse(token, saved.getId(), saved.getEmail(),
-            saved.getRol(), saved.getOrganizacion().getId());
+        return new AuthResponse(token, saved.getId(), saved.getEmail(), getNombre(saved),
+            saved.getRol(), saved.getOrganizacion().getId(), getMedicoId(saved), getPacienteId(saved));
+    }
+
+    private java.util.UUID getMedicoId(Usuario usuario) {
+        return usuario.getMedico() != null ? usuario.getMedico().getId() : null;
+    }
+
+    private java.util.UUID getPacienteId(Usuario usuario) {
+        if (!"PACIENTE".equals(usuario.getRol())) {
+            return null;
+        }
+        return pacienteRepository.findByOrganizacionIdAndEmail(usuario.getOrganizacion().getId(), usuario.getEmail())
+            .map(paciente -> paciente.getId())
+            .orElse(null);
+    }
+
+    private String getNombre(Usuario usuario) {
+        if (usuario.getMedico() != null) {
+            return usuario.getMedico().getNombre();
+        }
+        if ("PACIENTE".equals(usuario.getRol())) {
+            return pacienteRepository.findByOrganizacionIdAndEmail(usuario.getOrganizacion().getId(), usuario.getEmail())
+                .map(paciente -> paciente.getNombre())
+                .orElse(usuario.getEmail());
+        }
+        return usuario.getEmail();
     }
 }

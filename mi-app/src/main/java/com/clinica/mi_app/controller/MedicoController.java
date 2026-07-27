@@ -48,7 +48,7 @@ public class MedicoController {
         @ApiResponse(responseCode = "401", description = "Token requerido"),
         @ApiResponse(responseCode = "403", description = "Sin permisos")
     })
-    @PreAuthorize("hasAnyRole('" + Roles.ADMIN + "', '" + Roles.MEDICO + "')")
+    @PreAuthorize("hasAnyRole('" + Roles.ADMIN + "', '" + Roles.MEDICO + "', '" + Roles.PACIENTE + "')")
     public List<MedicoResponse> listarActivos(@PathVariable UUID orgId) {
         return service.listarActivosPorOrganizacion(orgId);
     }
@@ -104,6 +104,19 @@ public class MedicoController {
     @PreAuthorize("hasRole('" + Roles.ADMIN + "')")
     public MedicoResponse actualizar(@PathVariable UUID id, @Valid @RequestBody MedicoRequest req) {
         return service.actualizar(id, req);
+    }
+
+    @PatchMapping("/{id}/activo")
+    @Operation(summary = "Alternar estado activo/inactivo de un médico")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Estado actualizado"),
+        @ApiResponse(responseCode = "401", description = "Token requerido"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos"),
+        @ApiResponse(responseCode = "404", description = "Médico no encontrado")
+    })
+    @PreAuthorize("hasRole('" + Roles.ADMIN + "')")
+    public MedicoResponse toggleActivo(@PathVariable UUID id) {
+        return service.toggleActivo(id);
     }
 
     @DeleteMapping("/{id}")

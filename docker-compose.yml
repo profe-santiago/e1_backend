@@ -36,6 +36,9 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
       FASTAPI_URL: http://medinflow-ia:8001
+      SUPABASE_URL: ${SUPABASE_URL:-https://cgfkxsfyucybzytqfyoi.supabase.co}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNnZmt4c2Z5dWN5Ynp5dHFmeW9pIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTg0MzgwNywiZXhwIjoyMDk1NDE5ODA3fQ.55inNZkEtb5P9v0ZbUNg0U1iKfHJjFjRGDh4LO1uM3I}
+      SUPABASE_STORAGE_BUCKET: ${SUPABASE_STORAGE_BUCKET:-adjuntos}
     depends_on:
       postgres:
         condition: service_healthy

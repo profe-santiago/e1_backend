@@ -23,15 +23,19 @@ public class JwtUtil {
     private long expiration;
 
     public String generateToken(Usuario usuario) {
-        return Jwts.builder()
+        var builder = Jwts.builder()
                 .subject(usuario.getEmail())
                 .claim("userId", usuario.getId().toString())
                 .claim("rol", usuario.getRol())
                 .claim("organizacionId", usuario.getOrganizacion().getId().toString())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSignKey())
-                .compact();
+                .expiration(new Date(System.currentTimeMillis() + expiration));
+
+        if (usuario.getMedico() != null) {
+            builder.claim("medicoId", usuario.getMedico().getId().toString());
+        }
+
+        return builder.signWith(getSignKey()).compact();
     }
 
     public Claims extractClaims(String token) {

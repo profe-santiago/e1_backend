@@ -60,6 +60,10 @@ public class JwtFilter extends OncePerRequestFilter {
             Map<String, Object> jwtClaims = new HashMap<>();
             jwtClaims.put("userId", UUID.fromString(claims.get("userId", String.class)));
             jwtClaims.put("organizacionId", UUID.fromString(claims.get("organizacionId", String.class)));
+            String medicoId = claims.get("medicoId", String.class);
+            if (medicoId != null) {
+                jwtClaims.put("medicoId", UUID.fromString(medicoId));
+            }
             jwtClaims.put("rol", claims.get("rol", String.class));
             authToken.setDetails(jwtClaims);
 

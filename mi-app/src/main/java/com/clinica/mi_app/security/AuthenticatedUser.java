@@ -22,6 +22,10 @@ public class AuthenticatedUser {
         return (UUID) claims().get("organizacionId");
     }
 
+    public static UUID getMedicoId() {
+        return (UUID) claims().get("medicoId");
+    }
+
     public static String getEmail() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
