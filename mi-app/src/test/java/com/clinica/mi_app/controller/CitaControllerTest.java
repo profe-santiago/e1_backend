@@ -12,12 +12,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,46 +27,44 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.clinica.mi_app.dto.request.CitaRequest;
 import com.clinica.mi_app.dto.response.CitaResponse;
+import com.clinica.mi_app.security.JwtUtil;
 import com.clinica.mi_app.service.CitaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 
 @WebMvcTest(CitaController.class)
-@TestPropertySource(properties = {"jwt.secret=ZmFrZXNlY3JldGtleWZha2VzZWNyZXQ=", "jwt.expiration=3600000"})
 @AutoConfigureMockMvc(addFilters = false)
+@TestPropertySource(properties = {
+        "auth.public.key=dummy",
+        "auth.service.url=http://localhost:4001"
+})
 public class CitaControllerTest {
-
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private CitaService citaService;
 
     @TestConfiguration
     static class TestConfig {
         @Bean
-        public CitaService citaService() {
-            return org.mockito.Mockito.mock(CitaService.class);
-        }
-        @Bean
-        public com.clinica.mi_app.security.JwtUtil jwtUtil() {
-            return org.mockito.Mockito.mock(com.clinica.mi_app.security.JwtUtil.class);
-        }
-        @Bean
-        public com.clinica.mi_app.security.UserDetailsServiceImpl userDetailsServiceImpl() {
-            return org.mockito.Mockito.mock(com.clinica.mi_app.security.UserDetailsServiceImpl.class);
-        }
-        @Bean
-        public com.fasterxml.jackson.databind.ObjectMapper objectMapper() {
-            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
-            mapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
-            mapper.configure(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        public ObjectMapper objectMapper() {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
             return mapper;
         }
     }
 
     @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
     private ObjectMapper objectMapper;
+
+    @MockitoBean
+    private CitaService citaService;
+
+    @MockitoBean
+    private JwtUtil jwtUtil;
 
     private UUID organizacionId;
     private UUID pacienteId;

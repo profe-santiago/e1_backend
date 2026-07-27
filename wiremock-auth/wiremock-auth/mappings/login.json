@@ -1,0 +1,19 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/auth/login"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMTExMTExMS0xMTExLTExMTEtMTExMS0xMTExMTExMTExMTEiLCJ0ZW5hbnRJZCI6IjIyMjIyMjIyLTIyMjItMjIyMi0yMjIyLTIyMjIyMjIyMjIyMiIsInN5c3RlbUlkIjoiY2xpbmljYXMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3ODE4NzY4NTUsImV4cCI6MjA5NzIzNjg1NX0.RzNpPtxmbr4obYGEhxU4xJgk7TZEva-Euot9JF1pifAFVBS0OkxvleUByOq6v7HNtDyp2eZc88q1-B9YFyNmo9PxFcIgT9BaS90zRJTI6yTV5S6KcS41l_eo4t2z57o1OFuwatZ2PAtwkj9nZLLf-RcRuUOSQps808zHtAWVM0dkXSF9ymWegC3jvy4dZyP7w0Wn08NocVHquDR8oPOWad1RAJbv9LC6q1sd5huiaFIXwbdRg4J1rx390vzuWXa6vgInuFqW_Gls1HRsUHSGZDJGSavol7lYm2Zb3W6w4umr1nRs3HgD5U3SGYFCO4erL41l3MaoWyPcx0UIFHVuTA",
+      "user": {
+        "id": "11111111-1111-1111-1111-111111111111",
+        "email": "test@test.com",
+        "role": "ADMIN",
+        "tenantId": "22222222-2222-2222-2222-222222222222"
+      }
+    }
+  }
+}

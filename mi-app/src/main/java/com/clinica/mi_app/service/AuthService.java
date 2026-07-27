@@ -1,72 +1,71 @@
 package com.clinica.mi_app.service;
 
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.clinica.mi_app.dto.request.RegistroTenantRequest;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
-import com.clinica.mi_app.dto.request.LoginRequest;
-import com.clinica.mi_app.dto.request.RegistroRequest;
-import com.clinica.mi_app.dto.response.AuthResponse;
-import com.clinica.mi_app.exception.ResourceNotFoundException;
-import com.clinica.mi_app.model.Organizacion;
-import com.clinica.mi_app.model.Usuario;
-import com.clinica.mi_app.repository.OrganizacionRepository;
-import com.clinica.mi_app.repository.UsuarioRepository;
-import com.clinica.mi_app.security.JwtUtil;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class AuthService {
 
-    private final AuthenticationManager authenticationManager;
-    private final UsuarioRepository usuarioRepository;
-    private final OrganizacionRepository organizacionRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
+    private final WebClient authWebClient;
 
-    public AuthService(AuthenticationManager authenticationManager,
-                       UsuarioRepository usuarioRepository,
-                       OrganizacionRepository organizacionRepository,
-                       BCryptPasswordEncoder passwordEncoder,
-                       JwtUtil jwtUtil) {
-        this.authenticationManager = authenticationManager;
-        this.usuarioRepository = usuarioRepository;
-        this.organizacionRepository = organizacionRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
+    public AuthService(@Qualifier("authServiceWebClient") WebClient authWebClient) {
+        this.authWebClient = authWebClient;
     }
 
-    @Transactional(readOnly = true)
-    public AuthResponse login(LoginRequest req) {
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword())
-        );
-        Usuario usuario = usuarioRepository.findByEmail(req.getEmail())
-            .orElseThrow(() -> new ResourceNotFoundException("Usuario", req.getEmail()));
-        String token = jwtUtil.generateToken(usuario);
-        return new AuthResponse(token, usuario.getId(), usuario.getEmail(),
-            usuario.getRol(), usuario.getOrganizacion().getId());
+    public ResponseEntity<String> login(String email, String password, String tenantSlug, String systemId) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("email", email);
+        body.put("password", password);
+        body.put("tenantSlug", tenantSlug);
+        body.put("systemId", systemId);
+
+        return proxy("/auth/login", body);
     }
 
-    @Transactional
-    public AuthResponse registro(RegistroRequest req) {
-        if (usuarioRepository.findByEmail(req.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Ya existe un usuario con ese email");
+    public ResponseEntity<String> registro(String email, String password, String tenantSlug, String systemId) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("email", email);
+        body.put("password", password);
+        body.put("tenantSlug", tenantSlug);
+        body.put("systemId", systemId);
+
+        return proxy("/auth/registro", body);
+    }
+
+    // Endpoint asumido: /tenants/registro (distinto de /auth/registro que registra usuarios individuales).
+    // El contrato real del AuthService de InToGlobe no estaba disponible en el roadmap al momento
+    // de escribir esto — ajustar la URI cuando Equipo 2 confirme el contrato.
+    public ResponseEntity<String> registroTenant(RegistroTenantRequest req) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("nombre", req.getNombre());
+        body.put("plan", req.getPlan());
+        body.put("email", req.getEmail());
+        body.put("password", req.getPassword());
+        body.put("tenantSlug", req.getTenantSlug());
+        return proxy("/tenants/registro", body);
+    }
+
+    private ResponseEntity<String> proxy(String uri, Map<String, Object> body) {
+        try {
+            return authWebClient.post()
+                    .uri(uri)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .bodyValue(body)
+                    .retrieve()
+                    .toEntity(String.class)
+                    .block();
+        } catch (WebClientResponseException ex) {
+            return ResponseEntity.status(ex.getStatusCode())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(ex.getResponseBodyAsString());
         }
-        Organizacion org = organizacionRepository.findById(req.getOrganizacionId())
-            .orElseThrow(() -> new ResourceNotFoundException("Organizacion", req.getOrganizacionId().toString()));
-
-        Usuario usuario = new Usuario();
-        usuario.setEmail(req.getEmail());
-        usuario.setPasswordHash(passwordEncoder.encode(req.getPassword()));
-        usuario.setRol("PACIENTE");
-        usuario.setOrganizacion(org);
-        usuario.setActivo(true);
-        Usuario saved = usuarioRepository.save(usuario);
-
-        String token = jwtUtil.generateToken(saved);
-        return new AuthResponse(token, saved.getId(), saved.getEmail(),
-            saved.getRol(), saved.getOrganizacion().getId());
     }
 }

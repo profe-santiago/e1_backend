@@ -1,0 +1,102 @@
+.expediente-grid {
+  align-items: start;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1.25fr) minmax(340px, 0.75fr);
+}
+
+.patient-card {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.patient-card > div,
+.history-item > div,
+.diagnosis-history-item > div,
+.side-item > div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.patient-card .wide {
+  grid-column: 1 / -1;
+}
+
+.patient-card span,
+.history-item span,
+.diagnosis-history-item span,
+.diagnosis-history-item small,
+.side-item span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.patient-card strong,
+.history-item strong,
+.diagnosis-history-item strong,
+.side-item strong {
+  overflow-wrap: anywhere;
+}
+
+.history-list,
+.side-list {
+  display: grid;
+}
+
+.history-item,
+.diagnosis-history-item,
+.side-item {
+  align-items: center;
+  border-bottom: 1px solid var(--outline);
+  display: grid;
+  gap: 14px;
+  padding: 14px 0;
+}
+
+.history-item {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+}
+
+.diagnosis-history-item,
+.side-item {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.history-item:first-child,
+.diagnosis-history-item:first-child,
+.side-item:first-child {
+  padding-top: 0;
+}
+
+.history-item:last-child,
+.diagnosis-history-item:last-child,
+.side-item:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.link-item {
+  color: inherit;
+  text-decoration: none;
+}
+
+.link-item:hover strong {
+  color: var(--primary);
+}
+
+@media (max-width: 980px) {
+  .expediente-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .patient-card,
+  .history-item,
+  .diagnosis-history-item,
+  .side-item {
+    grid-template-columns: 1fr;
+  }
+}

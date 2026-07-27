@@ -1,0 +1,86 @@
+.clinical-controls {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(260px, 1fr) minmax(320px, 1.4fr);
+  margin-bottom: 24px;
+  padding: 20px;
+}
+
+.clinical-grid {
+  align-items: start;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1.25fr) minmax(360px, 0.75fr);
+}
+
+.clinical-patient,
+.clinical-form {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.clinical-patient > div,
+.clinical-item > div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.clinical-patient span,
+.clinical-item span,
+.clinical-item small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.clinical-patient strong,
+.clinical-item strong {
+  overflow-wrap: anywhere;
+}
+
+.clinical-list {
+  display: grid;
+}
+
+.clinical-item {
+  align-items: center;
+  border-bottom: 1px solid var(--outline);
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 14px 0;
+}
+
+.clinical-item:first-child {
+  padding-top: 0;
+}
+
+.clinical-item:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.clinical-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.clinical-link:hover strong {
+  color: var(--primary);
+}
+
+@media (max-width: 980px) {
+  .clinical-grid,
+  .clinical-controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .clinical-patient,
+  .clinical-form,
+  .clinical-item {
+    grid-template-columns: 1fr;
+  }
+}

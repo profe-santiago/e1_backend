@@ -27,6 +27,9 @@ public class Organizacion {
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt = OffsetDateTime.now();
 
+    @Column(name = "subscription_id", length = 100)
+    private String subscriptionId;
+
     // ---------- Getters y Setters ----------
 
     public UUID getId() { return id; }
@@ -46,4 +49,7 @@ public class Organizacion {
 
     public OffsetDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }
+
+    public String getSubscriptionId() { return subscriptionId; }
+    public void setSubscriptionId(String subscriptionId) { this.subscriptionId = subscriptionId; }
 }

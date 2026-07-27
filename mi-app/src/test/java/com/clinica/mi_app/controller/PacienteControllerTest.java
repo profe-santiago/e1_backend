@@ -5,7 +5,6 @@ import com.clinica.mi_app.dto.request.PacienteRequest;
 import com.clinica.mi_app.dto.response.PacienteResponse;
 import com.clinica.mi_app.security.JwtFilter;
 import com.clinica.mi_app.security.JwtUtil;
-import com.clinica.mi_app.security.UserDetailsServiceImpl;
 import com.clinica.mi_app.service.PacienteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -46,9 +45,6 @@ class PacienteControllerTest {
 
 	@MockitoBean
 	private JwtUtil jwtUtil;
-
-	@MockitoBean
-	private UserDetailsServiceImpl userDetailsService;
 
     private static final UUID ORG_ID = UUID.fromString("20352770-80b9-403b-9a3d-e55e02e98edd");
     private static final UUID PACIENTE_ID = UUID.randomUUID();

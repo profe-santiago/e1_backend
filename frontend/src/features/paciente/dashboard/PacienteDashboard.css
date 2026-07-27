@@ -1,0 +1,103 @@
+.patient-grid {
+  align-items: start;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+}
+
+.patient-next-card {
+  display: grid;
+  gap: 18px;
+}
+
+.patient-next-card > div:first-child {
+  align-items: center;
+  color: var(--primary);
+  display: flex;
+  gap: 10px;
+  font-weight: 800;
+}
+
+.patient-next-card h3 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.patient-next-card dl {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.patient-next-card dt {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.patient-next-card dd {
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.patient-next-card .badge {
+  justify-self: start;
+}
+
+.patient-list {
+  display: grid;
+}
+
+.patient-list-row {
+  align-items: center;
+  border-bottom: 1px solid var(--outline);
+  display: grid;
+  gap: 12px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  padding: 14px 0;
+}
+
+.patient-list-row:first-child {
+  padding-top: 0;
+}
+
+.patient-list-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.patient-list-row svg {
+  color: var(--primary);
+}
+
+.patient-list-row div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.patient-list-row strong {
+  overflow-wrap: anywhere;
+}
+
+.patient-list-row span:not(.badge) {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+@media (max-width: 980px) {
+  .patient-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .patient-next-card dl,
+  .patient-list-row {
+    grid-template-columns: 1fr;
+  }
+}
