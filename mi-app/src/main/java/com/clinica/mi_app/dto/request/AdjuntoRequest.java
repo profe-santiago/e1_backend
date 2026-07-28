@@ -22,11 +22,9 @@ public class AdjuntoRequest {
     @Size(max = 30)
     private String tipo;
 
-    @NotBlank
     @Size(max = 200)
     private String nombreArchivo;
 
-    @NotBlank
     private String urlArchivo;
 
     @Size(max = 80)

@@ -84,4 +84,12 @@ public class MedicoService {
     public void eliminar(UUID id) {
         repo.deleteById(id);
     }
+
+    @org.springframework.transaction.annotation.Transactional
+    public MedicoResponse toggleActivo(UUID id) {
+        Medico m = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Medico", id.toString()));
+        m.setActivo(!Boolean.TRUE.equals(m.getActivo()));
+        return MedicoMapper.toResponse(repo.save(m));
+    }
 }

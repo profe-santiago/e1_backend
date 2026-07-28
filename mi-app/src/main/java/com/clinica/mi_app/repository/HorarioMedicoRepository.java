@@ -10,4 +10,6 @@ import java.util.UUID;
 public interface HorarioMedicoRepository extends JpaRepository<HorarioMedico, UUID> {
     List<HorarioMedico> findByMedicoId(UUID medicoId);
     List<HorarioMedico> findByMedicoIdAndDiaSemana(UUID medicoId, Short diaSemana);
+    boolean existsByMedicoIdAndDiaSemana(UUID medicoId, Short diaSemana);
+    boolean existsByMedicoIdAndDiaSemanaAndIdNot(UUID medicoId, Short diaSemana, UUID id);
 }

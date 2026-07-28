@@ -6,27 +6,24 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-// Intercepta cada request, extrae el Bearer token y, si es válido,
-// carga el usuario en el SecurityContext para que @PreAuthorize funcione.
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final UserDetailsServiceImpl userDetailsService;
 
-    public JwtFilter(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService) {
+    public JwtFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -43,26 +40,51 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String token = authHeader.substring(7);
 
-        if (!jwtUtil.isTokenValid(token)) {
+        Claims claims;
+        try {
+            claims = jwtUtil.validateToken(token);
+        } catch (Exception e) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        Claims claims = jwtUtil.extractClaims(token);
-        String email = claims.getSubject();
+        String subject = claims.getSubject();
 
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        if (subject != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            String role = jwtUtil.getRole(claims);
+
+            List<SimpleGrantedAuthority> authorities = role != null
+                    ? List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                    : List.of();
 
             UsernamePasswordAuthenticationToken authToken =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    new UsernamePasswordAuthenticationToken(subject, null, authorities);
 
             Map<String, Object> jwtClaims = new HashMap<>();
-            jwtClaims.put("userId", UUID.fromString(claims.get("userId", String.class)));
-            jwtClaims.put("organizacionId", UUID.fromString(claims.get("organizacionId", String.class)));
-            jwtClaims.put("rol", claims.get("rol", String.class));
-            authToken.setDetails(jwtClaims);
+            jwtClaims.put("userId", UUID.fromString(subject));
+            jwtClaims.put("rol", role);
 
+            String tenantId = jwtUtil.getTenantId(claims);
+            if (tenantId != null) {
+                jwtClaims.put("tenantId", tenantId);
+            }
+
+            String email = claims.get("email", String.class);
+            if (email != null) {
+                jwtClaims.put("email", email);
+            }
+
+            String organizacionId = claims.get("organizacionId", String.class);
+            if (organizacionId != null) {
+                jwtClaims.put("organizacionId", UUID.fromString(organizacionId));
+            }
+
+            String medicoId = claims.get("medicoId", String.class);
+            if (medicoId != null) {
+                jwtClaims.put("medicoId", UUID.fromString(medicoId));
+            }
+
+            authToken.setDetails(jwtClaims);
             SecurityContextHolder.getContext().setAuthentication(authToken);
         }
 

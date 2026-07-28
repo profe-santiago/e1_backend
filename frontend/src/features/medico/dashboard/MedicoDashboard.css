@@ -1,0 +1,121 @@
+.doctor-grid {
+  align-items: start;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+}
+
+.appointment-list,
+.patient-mini-list,
+.schedule-list,
+.payment-list {
+  display: grid;
+}
+
+.appointment-row,
+.patient-mini-row,
+.schedule-row,
+.payment-row {
+  align-items: center;
+  border-bottom: 1px solid var(--outline);
+  display: grid;
+  gap: 14px;
+  padding: 14px 0;
+}
+
+.appointment-row:first-child,
+.patient-mini-row:first-child,
+.schedule-row:first-child,
+.payment-row:first-child {
+  padding-top: 0;
+}
+
+.appointment-row:last-child,
+.patient-mini-row:last-child,
+.schedule-row:last-child,
+.payment-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.appointment-row {
+  grid-template-columns: 92px minmax(0, 1fr) auto;
+}
+
+.appointment-list.compact .appointment-row {
+  grid-template-columns: 72px minmax(0, 1fr);
+}
+
+.appointment-list.compact .appointment-row .badge {
+  grid-column: 2;
+  justify-self: start;
+}
+
+.appointment-time,
+.appointment-main,
+.patient-mini-row > div,
+.payment-row > div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.appointment-time strong {
+  color: var(--primary);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.appointment-time span,
+.appointment-main span,
+.appointment-main small,
+.patient-mini-row span,
+.patient-mini-row small,
+.schedule-row small,
+.payment-row span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.appointment-main strong,
+.patient-mini-row strong,
+.payment-row strong {
+  overflow-wrap: anywhere;
+}
+
+.patient-mini-row,
+.payment-row {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.schedule-row {
+  grid-template-columns: 96px minmax(0, 1fr) auto;
+}
+
+.schedule-row span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 980px) {
+  .doctor-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .appointment-row,
+  .appointment-list.compact .appointment-row,
+  .patient-mini-row,
+  .schedule-row,
+  .payment-row {
+    grid-template-columns: 1fr;
+  }
+
+  .appointment-list.compact .appointment-row .badge {
+    grid-column: auto;
+  }
+}

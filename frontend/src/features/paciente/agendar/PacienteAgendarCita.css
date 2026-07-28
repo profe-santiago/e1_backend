@@ -1,0 +1,44 @@
+.patient-schedule-form {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(220px, 1.1fr) minmax(180px, 0.55fr);
+}
+
+.slot-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(88px, 1fr));
+}
+
+.slot-grid button {
+  border: 1px solid var(--outline);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 12px;
+  font-weight: 800;
+}
+
+.slot-grid button:hover {
+  border-color: var(--primary);
+  background: var(--surface-soft);
+}
+
+.slot-grid button.active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+}
+
+.slot-state {
+  border: 1px dashed var(--outline);
+  border-radius: 8px;
+  color: var(--muted);
+  padding: 14px;
+}
+
+@media (max-width: 720px) {
+  .patient-schedule-form {
+    grid-template-columns: 1fr;
+  }
+}

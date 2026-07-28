@@ -1,6 +1,7 @@
 package com.clinica.mi_app.dto.request;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -24,6 +25,9 @@ public class CitaRequest {
     @NotNull
     private Short duracionMin;
 
+    @Size(max = 20)
+    private String estado;
+
     private String motivo;
 
     public UUID getOrganizacionId() { return organizacionId; }
@@ -43,6 +47,9 @@ public class CitaRequest {
 
     public Short getDuracionMin() { return duracionMin; }
     public void setDuracionMin(Short duracionMin) { this.duracionMin = duracionMin; }
+
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
 
     public String getMotivo() { return motivo; }
     public void setMotivo(String motivo) { this.motivo = motivo; }

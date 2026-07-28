@@ -1,61 +1,54 @@
 package com.clinica.mi_app.security;
 
-import com.clinica.mi_app.model.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
-import java.util.Date;
+import java.security.KeyFactory;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 
-// Genera y valida tokens JWT. El token lleva userId, email, rol y organizacionId
-// para que cualquier endpoint pueda saber quién hace la petición sin consultar la BD.
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
-    private String secret;
+    @Value("${auth.public.key}")
+    private String publicKeyPem;
 
-    @Value("${jwt.expiration}")
-    private long expiration;
+    private RSAPublicKey publicKey;
 
-    public String generateToken(Usuario usuario) {
-        return Jwts.builder()
-                .subject(usuario.getEmail())
-                .claim("userId", usuario.getId().toString())
-                .claim("rol", usuario.getRol())
-                .claim("organizacionId", usuario.getOrganizacion().getId().toString())
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSignKey())
-                .compact();
+    @PostConstruct
+    private void init() {
+        this.publicKey = parsePublicKey(publicKeyPem);
     }
 
-    public Claims extractClaims(String token) {
+    public Claims validateToken(String token) {
         return Jwts.parser()
-                .verifyWith(getSignKey())
+                .verifyWith(publicKey)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
     }
 
-    public String extractEmail(String token) {
-        return extractClaims(token).getSubject();
-    }
+    public String getTenantId(Claims claims) { return claims.get("tenantId", String.class); }
+    public String getSystemId(Claims claims) { return claims.get("systemId", String.class); }
+    public String getRole(Claims claims)     { return claims.get("role", String.class); }
+    public String getUserId(Claims claims)   { return claims.getSubject(); }
 
-    public boolean isTokenValid(String token) {
+    private RSAPublicKey parsePublicKey(String pem) {
+        String cleaned = pem
+                .replace("-----BEGIN PUBLIC KEY-----", "")
+                .replace("-----END PUBLIC KEY-----", "")
+                .replaceAll("\\s+", "");
+        byte[] decoded = Base64.getDecoder().decode(cleaned);
         try {
-            return extractClaims(token).getExpiration().after(new Date());
+            X509EncodedKeySpec spec = new X509EncodedKeySpec(decoded);
+            KeyFactory factory = KeyFactory.getInstance("RSA");
+            return (RSAPublicKey) factory.generatePublic(spec);
         } catch (Exception e) {
-            return false;
+            throw new IllegalStateException("No se pudo parsear la clave publica RSA", e);
         }
-    }
-
-    private SecretKey getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
-        return Keys.hmacShaKeyFor(keyBytes);
     }
 }
