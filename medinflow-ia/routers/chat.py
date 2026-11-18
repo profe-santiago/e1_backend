@@ -78,4 +78,4 @@ async def disponibilidad(organizacion_id: str):
 
 @router.get("/salud")
 def salud():
-    return {"status": "ok", "servicio": "MedInFlow IA"}
+    return {"status": "ok", "servicio": "CliniClick IA"}

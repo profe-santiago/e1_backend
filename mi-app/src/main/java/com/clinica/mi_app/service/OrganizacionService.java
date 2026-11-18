@@ -27,7 +27,7 @@ public class OrganizacionService {
 
     public OrganizacionResponse buscarPorId(UUID id) {
         return repo.findById(id).map(OrganizacionMapper::toResponse)
-                .orElseThrow(() -> new ResourceNotFoundException("Organizacion", id.toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("Organización", id.toString()));
     }
 
     public OrganizacionResponse crear(OrganizacionRequest req) {
@@ -40,7 +40,7 @@ public class OrganizacionService {
 
     public OrganizacionResponse actualizar(UUID id, OrganizacionRequest req) {
         Organizacion org = repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Organizacion", id.toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("Organización", id.toString()));
         org.setNombre(req.getNombre());
         org.setPlan(req.getPlan());
         org.setTrialHasta(req.getTrialHasta());

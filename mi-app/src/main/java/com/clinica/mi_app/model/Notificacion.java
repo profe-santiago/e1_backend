@@ -28,7 +28,7 @@ public class Notificacion {
     private String canal = "WHATSAPP";
 
     @Column(nullable = false, length = 40)
-    private String tipo; // RECORDATORIO_48H | RECORDATORIO_24H | ADJUNTO
+    private String tipo; // RECORDATORIO_48H | RECORDATORIO_24H | RECORDATORIO_MANUAL | ADJUNTO | CANCELACION_PACIENTE | CONFIRMACION_PACIENTE
 
     @Column(nullable = false, length = 20)
     private String estado = "PENDIENTE"; // PENDIENTE | ENVIADO | FALLIDO
@@ -38,6 +38,12 @@ public class Notificacion {
 
     @Column(columnDefinition = "TEXT")
     private String respuesta;
+
+    @Column(name = "creada_en", nullable = false, updatable = false)
+    private OffsetDateTime creadaEn = OffsetDateTime.now();
+
+    @Column(nullable = false)
+    private Boolean leida = false;
 
     // ---------- Getters y Setters ----------
 
@@ -67,4 +73,10 @@ public class Notificacion {
 
     public String getRespuesta() { return respuesta; }
     public void setRespuesta(String respuesta) { this.respuesta = respuesta; }
+
+    public OffsetDateTime getCreadaEn() { return creadaEn; }
+    public void setCreadaEn(OffsetDateTime creadaEn) { this.creadaEn = creadaEn; }
+
+    public Boolean getLeida() { return leida; }
+    public void setLeida(Boolean leida) { this.leida = leida; }
 }

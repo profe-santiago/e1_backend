@@ -14,7 +14,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "${DB_HOST_PORT:-5432}:5432"
     networks:
       - clinica-network
     healthcheck:
@@ -34,8 +34,36 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${DB_NAME:-MVPClinica}
       SPRING_DATASOURCE_USERNAME: ${DB_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-      JWT_SECRET: ${JWT_SECRET}
+      # Auth local RS256 + datos seed (desarrollo)
+      AUTH_PUBLIC_KEY: ${AUTH_PUBLIC_KEY}
+      AUTH_MODE: local
+      AUTH_LOCAL_PRIVATE_KEY_PATH: /keys/dev-private.pem
+      APP_SEED_ENABLED: "true"
+      RABBITMQ_LISTENER_ENABLED: "false"
       FASTAPI_URL: http://medinflow-ia:8001
+      SUPABASE_URL: ${SUPABASE_URL:-https://cgfkxsfyucybzytqfyoi.supabase.co}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY}
+      SUPABASE_STORAGE_BUCKET: ${SUPABASE_STORAGE_BUCKET:-adjuntos}
+      # WhatsApp: enlace | simulado | twilio | meta | intoglobe (valores en .env)
+      NOTIF_PROVIDER: ${NOTIF_PROVIDER:-enlace}
+      # URL pública del frontend para los enlaces /c/{token} del canal "enlace"
+      APP_PUBLIC_URL: ${APP_PUBLIC_URL:-http://localhost:5173}
+      # Orígenes CORS extra separados por comas (APP_PUBLIC_URL ya se permite solo)
+      APP_CORS_EXTRA_ORIGINS: ${APP_CORS_EXTRA_ORIGINS:-}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID:-}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN:-}
+      TWILIO_WHATSAPP_FROM: ${TWILIO_WHATSAPP_FROM:-whatsapp:+17372508034}
+      TWILIO_WEBHOOK_URL: ${TWILIO_WEBHOOK_URL:-}
+      TWILIO_JOB_ENABLED: ${TWILIO_JOB_ENABLED:-false}
+      WHATSAPP_META_PHONE_NUMBER_ID: ${WHATSAPP_META_PHONE_NUMBER_ID:-}
+      WHATSAPP_META_ACCESS_TOKEN: ${WHATSAPP_META_ACCESS_TOKEN:-}
+      WHATSAPP_META_APP_SECRET: ${WHATSAPP_META_APP_SECRET:-}
+      WHATSAPP_META_VERIFY_TOKEN: ${WHATSAPP_META_VERIFY_TOKEN:-}
+      WHATSAPP_META_API_VERSION: ${WHATSAPP_META_API_VERSION:-v21.0}
+      WHATSAPP_META_TEMPLATE_RECORDATORIO: ${WHATSAPP_META_TEMPLATE_RECORDATORIO:-recordatorio_cita}
+      WHATSAPP_META_TEMPLATE_LANG: ${WHATSAPP_META_TEMPLATE_LANG:-es_MX}
+    volumes:
+      - ./dev-private.pem:/keys/dev-private.pem:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -56,6 +84,21 @@ services:
       TZ: America/Mexico_City
     depends_on:
       - mi-app
+    networks:
+      - clinica-network
+
+  # Túnel público hacia el FRONTEND (Vite en el host, puerto 5173). Las llamadas a /api pasan por el
+  # proxy de Vite al backend, así que también sirve para los webhooks (/api/whatsapp/twilio).
+  # Solo con: docker compose --profile tunnel up -d tunnel
+  # La URL (https://<algo>.trycloudflare.com) aparece en: docker compose logs tunnel
+  # y CAMBIA cada vez que se reinicia el contenedor (actualiza APP_PUBLIC_URL y reinicia mi-app).
+  tunnel:
+    image: cloudflare/cloudflared:2024.12.2
+    container_name: clinica-tunnel
+    profiles: ["tunnel"]
+    command: tunnel --no-autoupdate --url http://host.docker.internal:5173
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - clinica-network
 

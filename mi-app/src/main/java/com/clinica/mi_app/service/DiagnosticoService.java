@@ -30,9 +30,9 @@ public class DiagnosticoService {
     public List<DiagnosticoResponse> listarPorCita(UUID citaId) {
         if (Roles.PACIENTE.equals(AuthenticatedUser.getRol())) {
             Cita cita = citaRepo.findById(citaId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Diagnostico", citaId.toString()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Diagnóstico", citaId.toString()));
             if (!AuthenticatedUser.getEmail().equals(cita.getPaciente().getEmail())) {
-                throw new ResourceNotFoundException("Diagnostico", citaId.toString());
+                throw new ResourceNotFoundException("Diagnóstico", citaId.toString());
             }
         }
         return repo.findByCitaId(citaId).stream().map(DiagnosticoMapper::toResponse).collect(Collectors.toList());
@@ -41,9 +41,9 @@ public class DiagnosticoService {
     public List<DiagnosticoResponse> listarPorCitaYTipo(UUID citaId, String tipo) {
         if (Roles.PACIENTE.equals(AuthenticatedUser.getRol())) {
             Cita cita = citaRepo.findById(citaId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Diagnostico", citaId.toString()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Diagnóstico", citaId.toString()));
             if (!AuthenticatedUser.getEmail().equals(cita.getPaciente().getEmail())) {
-                throw new ResourceNotFoundException("Diagnostico", citaId.toString());
+                throw new ResourceNotFoundException("Diagnóstico", citaId.toString());
             }
         }
         return repo.findByCitaIdAndTipo(citaId, tipo).stream().map(DiagnosticoMapper::toResponse).collect(Collectors.toList());
@@ -51,10 +51,10 @@ public class DiagnosticoService {
 
     public DiagnosticoResponse buscarPorId(UUID id) {
         Diagnostico d = repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Diagnostico", id.toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("Diagnóstico", id.toString()));
         if (Roles.PACIENTE.equals(AuthenticatedUser.getRol())) {
             if (!AuthenticatedUser.getEmail().equals(d.getCita().getPaciente().getEmail())) {
-                throw new ResourceNotFoundException("Diagnostico", id.toString());
+                throw new ResourceNotFoundException("Diagnóstico", id.toString());
             }
         }
         return DiagnosticoMapper.toResponse(d);
@@ -73,7 +73,7 @@ public class DiagnosticoService {
 
     public DiagnosticoResponse actualizar(UUID id, DiagnosticoRequest req) {
         Diagnostico d = repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Diagnostico", id.toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("Diagnóstico", id.toString()));
         d.setCodigoCie10(req.getCodigoCie10());
         d.setDescripcion(req.getDescripcion());
         d.setTipo(req.getTipo());

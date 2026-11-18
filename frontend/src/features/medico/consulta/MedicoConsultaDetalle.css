@@ -1,0 +1,92 @@
+.consulta-grid {
+  align-items: start;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1.25fr) minmax(340px, 0.75fr);
+}
+
+.consulta-summary,
+.diagnosis-form {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.consulta-info,
+.consulta-panel,
+.diagnosis-item > div,
+.attachment-item > div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.consulta-info.wide {
+  grid-column: 1 / -1;
+}
+
+.consulta-info span,
+.consulta-panel span,
+.consulta-panel small,
+.diagnosis-item span,
+.attachment-item span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.consulta-info strong,
+.consulta-panel strong,
+.diagnosis-item strong,
+.attachment-item strong {
+  overflow-wrap: anywhere;
+}
+
+.diagnosis-list,
+.attachment-list {
+  display: grid;
+}
+
+.diagnosis-item,
+.attachment-item {
+  align-items: center;
+  border-bottom: 1px solid var(--outline);
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 14px 0;
+}
+
+.diagnosis-item:first-child,
+.attachment-item:first-child {
+  padding-top: 0;
+}
+
+.diagnosis-item:last-child,
+.attachment-item:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.attachment-item {
+  color: inherit;
+  text-decoration: none;
+}
+
+.attachment-item:hover strong {
+  color: var(--primary);
+}
+
+@media (max-width: 980px) {
+  .consulta-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .consulta-summary,
+  .diagnosis-form,
+  .diagnosis-item,
+  .attachment-item {
+    grid-template-columns: 1fr;
+  }
+}

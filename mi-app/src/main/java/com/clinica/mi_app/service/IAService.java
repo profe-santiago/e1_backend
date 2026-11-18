@@ -80,7 +80,7 @@ public class IAService {
         body.put("historial", historial != null ? historial : List.of());
         try {
             String token = authHeader != null ? authHeader.replace("Bearer ", "") : "";
-            Claims claims = jwtUtil.extractClaims(token);
+            Claims claims = jwtUtil.validateToken(token);
             body.put("organizacion_id", claims.get("organizacionId", String.class));
         } catch (Exception ignored) {}
 
@@ -147,15 +147,15 @@ public class IAService {
 
     public CitaResponse agendarCitaDesdeIA(Map<String, Object> body, String authHeader) {
         String token = authHeader != null ? authHeader.replace("Bearer ", "") : "";
-        Claims claims = jwtUtil.extractClaims(token);
-        String email = claims.getSubject();
+        Claims claims = jwtUtil.validateToken(token);
+        String email = claims.get("email", String.class);
         UUID organizacionId = UUID.fromString(claims.get("organizacionId", String.class));
 
         Paciente paciente = pacienteRepository
                 .findByOrganizacionIdAndEmail(organizacionId, email)
                 .orElseGet(() -> {
                     Organizacion org = organizacionRepository.findById(organizacionId)
-                            .orElseThrow(() -> new ResourceNotFoundException("Organizacion", organizacionId.toString()));
+                            .orElseThrow(() -> new ResourceNotFoundException("Organización", organizacionId.toString()));
                     Paciente nuevo = new Paciente();
                     nuevo.setEmail(email);
                     nuevo.setNombre(email.contains("@") ? email.split("@")[0] : email);

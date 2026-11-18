@@ -48,12 +48,12 @@ public class MedicoService {
 
     public MedicoResponse buscarPorId(UUID id) {
         return repo.findById(id).map(MedicoMapper::toResponse)
-                .orElseThrow(() -> new ResourceNotFoundException("Medico", id.toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("Médico", id.toString()));
     }
 
     public MedicoResponse crear(MedicoRequest req) {
         Organizacion org = orgRepo.findById(req.getOrganizacionId())
-                .orElseThrow(() -> new ResourceNotFoundException("Organizacion", req.getOrganizacionId().toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("Organización", req.getOrganizacionId().toString()));
         Consultorio consultorio = consultorioRepo.findById(req.getConsultorioId())
                 .orElseThrow(() -> new ResourceNotFoundException("Consultorio", req.getConsultorioId().toString()));
         Medico m = new Medico();
@@ -69,7 +69,7 @@ public class MedicoService {
 
     public MedicoResponse actualizar(UUID id, MedicoRequest req) {
         Medico m = repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Medico", id.toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("Médico", id.toString()));
         Consultorio consultorio = consultorioRepo.findById(req.getConsultorioId())
                 .orElseThrow(() -> new ResourceNotFoundException("Consultorio", req.getConsultorioId().toString()));
         m.setConsultorio(consultorio);
@@ -83,5 +83,13 @@ public class MedicoService {
 
     public void eliminar(UUID id) {
         repo.deleteById(id);
+    }
+
+    @org.springframework.transaction.annotation.Transactional
+    public MedicoResponse toggleActivo(UUID id) {
+        Medico m = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Médico", id.toString()));
+        m.setActivo(!Boolean.TRUE.equals(m.getActivo()));
+        return MedicoMapper.toResponse(repo.save(m));
     }
 }

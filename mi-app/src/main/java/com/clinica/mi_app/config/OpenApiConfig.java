@@ -24,7 +24,7 @@ public class OpenApiConfig {
                                 .bearerFormat("JWT")
                                 .description("Ingrese el token JWT obtenido del endpoint /api/auth/login")))
                 .info(new Info()
-                        .title("MedInFlow ClinicaMVP API")
+                        .title("CliniClick API")
                         .description("Sistema de administración para clínicas y consultorios. " +
                                 "API REST para gestión de citas, pacientes, médicos y más.")
                         .version("1.0.0")

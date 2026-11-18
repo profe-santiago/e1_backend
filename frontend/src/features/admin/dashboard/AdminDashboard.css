@@ -1,0 +1,240 @@
+.admin-period {
+  background: var(--surface-soft);
+  border: 1px solid var(--outline);
+  border-radius: 999px;
+  display: inline-flex;
+  padding: 3px;
+}
+
+.admin-period-btn {
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: var(--tinta);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-height: 38px;
+  padding: 0 16px;
+}
+
+.admin-period-btn.active {
+  background: var(--tinta);
+  color: var(--blanco);
+}
+
+.metrics.admin-metrics {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.admin-grid {
+  align-items: start;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 24px;
+}
+
+/* Barra apilada de estados */
+.estados-bar {
+  background: var(--lienzo);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-pill);
+  display: flex;
+  gap: 2px;
+  height: 18px;
+  overflow: hidden;
+}
+
+.estados-seg {
+  flex-basis: 0;
+  min-width: 4px;
+}
+
+.estados-legend {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+}
+
+.estados-legend li {
+  align-items: center;
+  display: flex;
+  font-size: 0.875rem;
+  gap: 8px;
+}
+
+.estados-legend strong {
+  margin-left: auto;
+}
+
+.estados-dot {
+  border-radius: 3px;
+  flex: none;
+  height: 10px;
+  width: 10px;
+}
+
+/* Ingresos por día */
+.ingresos-chart {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.chart-grid {
+  stroke: var(--outline);
+  stroke-dasharray: 3 4;
+  stroke-width: 1;
+}
+
+.chart-label {
+  fill: var(--muted);
+  font-size: 11px;
+}
+
+.chart-bar {
+  fill: var(--primary-ui);
+}
+
+.chart-bar:hover {
+  fill: var(--primary);
+}
+
+.metodos {
+  border-top: 1px solid var(--outline);
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 14px 0 0;
+}
+
+.metodos li {
+  display: grid;
+  gap: 2px;
+}
+
+.metodos span,
+.metodos small {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* Ingresos por médico */
+.medicos-bars {
+  display: grid;
+  gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.medicos-bars-head {
+  display: flex;
+  font-size: 0.9rem;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.medicos-bars-track {
+  background: var(--surface-soft);
+  border-radius: 6px;
+  height: 10px;
+  overflow: hidden;
+}
+
+.medicos-bars-track span {
+  background: var(--laguna);
+  border-radius: 6px;
+  display: block;
+  height: 100%;
+}
+
+.medicos-bars small {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+/* Listas de citas */
+.admin-citas {
+  display: grid;
+}
+
+.admin-cita {
+  align-items: center;
+  border-bottom: 1px solid var(--outline);
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 92px minmax(0, 1fr) auto;
+  padding: 12px 0;
+}
+
+.admin-cita:first-child {
+  padding-top: 0;
+}
+
+.admin-cita:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.admin-cita-hora,
+.admin-cita-info {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.admin-cita-hora span,
+.admin-cita-info span {
+  color: var(--muted);
+  font-size: 0.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 960px) {
+  .admin-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .admin-cita {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  .admin-cita .estado {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .metodos {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ── CliniClick: lista de citas ── */
+.admin-cita-hora strong {
+  color: var(--tinta);
+  font-family: var(--fuente-titulos);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.admin-cita-info strong {
+  font-weight: 600;
+}
+
+.admin-cita-hora span,
+.admin-cita-info span {
+  color: var(--texto-2);
+}

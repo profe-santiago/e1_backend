@@ -1,0 +1,1047 @@
+/* ── CliniClick · componentes y layout ─────────────────────────────────────────
+   Se carga después de styles.css. Solo usa tokens de styles/tokens.css.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* ── Botones base de la app (.btn) ─────────────────────────────────────────── */
+.btn {
+  min-height: var(--toque-min);
+  height: auto;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-sm);
+  background: var(--blanco);
+  color: var(--tinta);
+  font-family: var(--fuente-texto);
+  font-weight: 600;
+}
+
+.btn:hover {
+  background: var(--lienzo);
+}
+
+.btn.primary {
+  border-color: var(--laguna-boton);
+  background: var(--laguna-boton);
+  color: var(--blanco);
+}
+
+.btn.primary:hover {
+  border-color: var(--laguna-texto);
+  background: var(--laguna-texto);
+}
+
+.btn.ghost {
+  border-color: transparent;
+  background: transparent;
+}
+
+.btn.ghost:hover {
+  background: var(--bruma-suave);
+}
+
+.btn.danger {
+  border-color: var(--estado-cancelada-bg);
+  background: var(--estado-cancelada-bg);
+  color: var(--estado-cancelada-fg);
+}
+
+.btn.icon {
+  width: var(--toque-min);
+  min-width: var(--toque-min);
+}
+
+.btn.small {
+  min-height: 36px;
+  border-radius: 12px;
+}
+
+.btn:focus-visible,
+.nav-item:focus-visible {
+  outline: var(--foco);
+  outline-offset: 2px;
+}
+
+/* ── Campos ────────────────────────────────────────────────────────────────── */
+.field span {
+  color: var(--tinta);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.field input,
+.field select,
+.field textarea {
+  min-height: var(--toque-min);
+  height: auto;
+  border: 1.5px solid var(--linea);
+  border-radius: var(--radio-sm);
+  background: var(--blanco);
+  color: var(--tinta);
+  font-size: 15px;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--laguna-texto);
+  box-shadow: 0 0 0 3px var(--bruma);
+}
+
+/* ── Contenedores ──────────────────────────────────────────────────────────── */
+.section,
+.metric {
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-md);
+  background: var(--blanco);
+  box-shadow: none;
+}
+
+.view-header h2 {
+  font-family: var(--fuente-titulos);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.section-head h3 {
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+}
+
+.badge {
+  border-radius: var(--radio-pill);
+  font-weight: 600;
+}
+
+/* Etiquetas en tipo oración, no en mayúsculas ("Por confirmar", no "POR CONFIRMAR") */
+.metric span {
+  color: var(--texto-2);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.metric strong {
+  font-family: var(--fuente-titulos);
+  font-weight: 800;
+}
+
+.empty,
+.loading,
+.error-box {
+  border-radius: var(--radio-md);
+}
+
+/* ── Menú lateral (Tinta) ──────────────────────────────────────────────────── */
+.sidebar {
+  border-right: 0;
+  background: var(--tinta);
+  color: var(--blanco);
+  padding: 28px 18px;
+  gap: 24px;
+}
+
+.sidebar-header {
+  align-items: center;
+  padding: 0 10px;
+  border-bottom: 0;
+}
+
+.sidebar-logo {
+  display: block;
+  width: 140px;
+  height: auto;
+}
+
+.sidebar .btn.icon {
+  border-color: transparent;
+  background: transparent;
+  color: var(--bruma);
+}
+
+.nav-list,
+.nav-footer {
+  gap: 4px;
+}
+
+.nav-list {
+  scrollbar-color: rgba(195, 231, 241, 0.3) transparent;
+}
+
+.nav-list::-webkit-scrollbar-thumb {
+  background: rgba(195, 231, 241, 0.3);
+}
+
+.nav-footer {
+  border-top: 1px solid rgba(195, 231, 241, 0.18);
+}
+
+.nav-item {
+  min-height: 46px;
+  gap: 14px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--radio-sm);
+  color: var(--bruma);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--blanco);
+}
+
+/* Activo en Laguna. Se usa el tono de botón (#1F7A76) para que el texto blanco de 15 px pase 4.5:1. */
+.nav-item.active {
+  background: var(--laguna-boton);
+  color: var(--blanco);
+  font-weight: 600;
+}
+
+.nav-item:focus-visible {
+  outline-color: var(--lima);
+}
+
+.nav-contador {
+  margin-left: auto;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: var(--radio-pill);
+  background: var(--lima);
+  color: var(--tinta);
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-usuario {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.sidebar-avatar {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--bruma);
+  color: var(--tinta);
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-usuario-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sidebar-usuario-texto strong {
+  overflow: hidden;
+  color: var(--blanco);
+  font-size: 14px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-usuario-texto span {
+  color: var(--bruma);
+  font-size: 12px;
+}
+
+/* ── Barra superior ────────────────────────────────────────────────────────── */
+.topbar {
+  border-bottom: 1px solid var(--linea);
+  background: var(--lienzo);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.search input {
+  min-height: var(--toque-min);
+  border: 1px solid var(--linea);
+  background: var(--blanco);
+}
+
+.search input:focus {
+  border-color: var(--laguna-texto);
+  box-shadow: 0 0 0 3px var(--bruma);
+}
+
+.search svg {
+  color: var(--texto-2);
+}
+
+/* ── Login ─────────────────────────────────────────────────────────────────── */
+.cc-auth {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-wrap: wrap;
+  background: var(--lienzo);
+  color: var(--tinta);
+}
+
+.cc-auth-marca {
+  position: relative;
+  flex: 1 1 520px;
+  min-height: 420px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 48px;
+  padding: 56px clamp(28px, 6vw, 80px);
+  background: var(--tinta);
+}
+
+.cc-auth-corazon {
+  position: absolute;
+  left: -160px;
+  bottom: -260px;
+  width: 760px;
+  height: 700px;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.cc-auth-corazon path {
+  fill: none;
+  stroke: var(--laguna);
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+}
+
+.cc-auth-logo {
+  position: relative;
+  display: block;
+  width: 170px;
+  height: auto;
+}
+
+.cc-auth-lema {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 520px;
+}
+
+.cc-auth-lema h1 {
+  margin: 0;
+  color: var(--blanco);
+  font-family: var(--fuente-titulos);
+  font-size: clamp(36px, 4.4vw, 56px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.cc-auth-lema p {
+  margin: 0;
+  color: var(--bruma);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.cc-auth-ejemplos {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 420px;
+}
+
+.cc-auth-ejemplo {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: var(--radio-md);
+  background: var(--blanco);
+  color: var(--tinta);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.cc-auth-ejemplo b {
+  font-weight: 600;
+}
+
+.cc-auth-ejemplo.lima {
+  margin-left: 48px;
+  padding: 12px 18px;
+  background: var(--lima);
+  font-weight: 500;
+}
+
+.cc-auth-ejemplo-icono {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: var(--estado-confirmada-bg);
+  color: var(--estado-confirmada-fg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cc-auth-ejemplo-sub {
+  color: var(--texto-2);
+}
+
+.cc-auth-zona {
+  flex: 1 1 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 28px;
+}
+
+.cc-auth-form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.cc-auth-titulo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cc-auth-titulo h2 {
+  margin: 0;
+  font-family: var(--fuente-titulos);
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.cc-auth-titulo p {
+  margin: 0;
+  color: var(--texto-2);
+  font-size: 16px;
+}
+
+.cc-auth-logo-movil {
+  display: none;
+  width: 150px;
+  height: auto;
+  margin-bottom: 8px;
+}
+
+.cc-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cc-campo input {
+  height: 52px;
+  padding: 0 16px;
+  border: 1.5px solid var(--linea);
+  border-radius: var(--radio-sm);
+  background: var(--blanco);
+  color: var(--tinta);
+  font-family: var(--fuente-texto);
+  font-size: 16px;
+}
+
+.cc-campo input::placeholder {
+  color: var(--texto-2);
+  opacity: 1; /* 6.06:1 sobre blanco; con opacidad bajaría de 4.5:1 */
+}
+
+.cc-campo input:focus {
+  border-color: var(--laguna-texto);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--bruma);
+}
+
+.cc-boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 20px;
+  border: 1.5px solid var(--tinta);
+  border-radius: 16px;
+  background: var(--blanco);
+  color: var(--tinta);
+  font-family: var(--fuente-texto);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cc-boton.primario {
+  border-color: var(--laguna-boton);
+  background: var(--laguna-boton);
+  color: var(--blanco);
+}
+
+.cc-boton.primario:hover {
+  background: var(--laguna-texto);
+}
+
+.cc-boton.grande {
+  min-height: 54px;
+}
+
+.cc-boton:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.cc-boton:focus-visible {
+  outline: var(--foco);
+  outline-offset: 3px;
+}
+
+.cc-separador {
+  height: 1px;
+  background: var(--linea);
+}
+
+.cc-auth-alterno {
+  margin: 0;
+  color: var(--texto-2);
+  font-size: 15px;
+  text-align: center;
+}
+
+.cc-enlace {
+  min-height: var(--toque-min);
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: var(--laguna-texto);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.cc-enlace:hover {
+  color: var(--tinta);
+}
+
+@media (max-width: 760px) {
+  .cc-auth-marca {
+    display: none;
+  }
+
+  .cc-auth-zona {
+    align-items: flex-start;
+    padding: 40px 20px;
+  }
+
+  .cc-auth-logo-movil {
+    display: block;
+  }
+}
+
+/* ── Métricas: acento superior por variante (sin texto lima) ── */
+.metric {
+  border-top: 4px solid var(--laguna-boton);
+  padding: 20px 22px;
+}
+
+.metric.secondary { border-top-color: var(--laguna); }
+.metric.warning   { border-top-color: var(--lima); }
+.metric.danger    { border-top-color: var(--cancelada); }
+
+.metric strong,
+.metric.warning strong { color: var(--tinta); }
+.metric.secondary strong { color: var(--laguna-texto); }
+.metric.danger strong { color: var(--estado-cancelada-fg); }
+
+/* ── Responsive ─────────────────────────────────────────────────────────────── */
+
+/* La X para cerrar el menú solo existe en pantallas donde el menú es un panel deslizable */
+.sidebar .sidebar-close {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  .sidebar .sidebar-close {
+    display: inline-flex;
+  }
+}
+
+/* Tarjeta del usuario: el nombre largo se recorta con "…" sin salirse del menú */
+.sidebar-usuario {
+  min-width: 0;
+}
+
+.sidebar-usuario-texto {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.sidebar-usuario-texto strong,
+.sidebar-usuario-texto span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Etiquetas largas del menú ("Diagnósticos y Adjuntos") en dos renglones sin cortarse */
+.nav-item span {
+  line-height: 1.25;
+}
+
+.nav-item {
+  height: auto;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* Pantallas bajas (laptops con escalado, 720 px de alto): menú más compacto para que quepa completo */
+@media (max-height: 820px) {
+  .sidebar {
+    gap: 14px;
+    padding: 18px 14px;
+  }
+
+  .sidebar-logo {
+    width: 120px;
+  }
+
+  .nav-item {
+    min-height: 40px;
+    font-size: 14px;
+  }
+
+  .nav-list,
+  .nav-footer {
+    gap: 2px;
+  }
+
+  .sidebar-usuario {
+    padding: 8px 10px;
+  }
+
+  .sidebar-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+}
+
+/* Medios: los títulos grandes bajan de tamaño para no ocupar media pantalla */
+@media (max-width: 1280px) {
+  .act-encabezado h1 {
+    font-size: clamp(24px, 2.6vw, 32px);
+  }
+
+  .act-manana h2 {
+    font-size: clamp(22px, 2.2vw, 28px);
+  }
+}
+
+/* Tablas: nunca ensanchan la página; se desplazan dentro de su tarjeta */
+.table-wrap,
+.section-body:has(> table) {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* ═══ Ajustes de revisión visual (1024–1920 px de ancho, 600–1080 px de alto) ═══ */
+
+/* ── A) Login: todo cabe en una pantalla ── */
+.cc-auth {
+  height: 100vh;
+  height: 100dvh;
+  min-height: 600px;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.cc-auth-marca {
+  flex: 1 1 52%;
+  min-height: 0;
+  justify-content: center;          /* logo, lema, texto y tarjetas juntos, centrados */
+  gap: clamp(18px, 4.2vh, 44px);
+  padding: clamp(24px, 6vh, 64px) clamp(28px, 6vw, 88px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.cc-auth-corazon {
+  z-index: -1;                      /* detrás del contenido; no empuja nada (absolute) */
+  left: auto;
+  right: -18%;
+  bottom: -30%;
+  width: min(70vw, 760px);
+  height: auto;
+  aspect-ratio: 100 / 92;
+}
+
+.cc-auth-logo {
+  width: clamp(110px, 17vh, 170px);
+}
+
+.cc-auth-lema {
+  gap: clamp(10px, 2.2vh, 22px);
+}
+
+.cc-auth-lema h1 {
+  font-size: clamp(30px, min(4.4vw, 7.2vh), 56px);
+}
+
+.cc-auth-lema p {
+  font-size: clamp(14px, 2.2vh, 18px);
+}
+
+.cc-auth-ejemplos {
+  gap: clamp(8px, 1.4vh, 12px);
+}
+
+.cc-auth-ejemplo {
+  padding: clamp(10px, 1.6vh, 14px) 18px;
+}
+
+.cc-auth-zona {
+  flex: 1 1 48%;
+  min-height: 0;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(20px, 5vh, 56px) clamp(20px, 4vw, 56px);
+  overflow-y: auto;
+}
+
+.cc-auth-form {
+  gap: clamp(14px, 2.6vh, 22px);
+}
+
+.cc-campo input {
+  height: clamp(46px, 6.4vh, 52px);
+}
+
+@media (max-width: 760px) {
+  .cc-auth {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+
+  .cc-auth-zona {
+    height: auto;
+    align-items: flex-start;
+  }
+}
+
+/* ── B) Métricas: auto-fit y números que nunca se cortan ── */
+.metrics,
+.metrics.admin-metrics {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.metric {
+  min-width: 0;
+  container-type: inline-size;
+}
+
+.metric strong {
+  font-size: clamp(20px, 16cqi, 32px);   /* se ajusta al ancho de su tarjeta */
+  white-space: nowrap;
+}
+
+/* ── B) Filas de cita: hora | datos | estado + acciones; si no caben, estado y acciones bajan ── */
+.agenda-timeline,
+.agenda-upcoming,
+.admin-citas {
+  container-type: inline-size;
+}
+
+.agenda-item {
+  grid-template-columns: 96px minmax(0, 1fr) auto;
+  align-items: start;
+}
+
+.agenda-actions {
+  flex-wrap: wrap;
+  align-self: center;
+}
+
+@container (max-width: 640px) {
+  .agenda-item {
+    grid-template-columns: 84px minmax(0, 1fr);
+  }
+
+  .agenda-item .agenda-actions {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+}
+
+/* Panel derecho de la agenda ("Próximas citas"): datos arriba, estado y acciones en su propia fila */
+.upcoming-item {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+
+.upcoming-item .agenda-actions {
+  flex-direction: row;
+  justify-content: flex-start;
+  align-self: stretch;
+}
+
+/* Botón de recordatorio: una sola línea */
+.wa-recordatorio .btn,
+.wa-btn {
+  white-space: nowrap;
+}
+
+.wa-recordatorio .btn {
+  min-height: 36px;
+}
+
+/* Listas de citas del admin */
+.admin-cita {
+  grid-template-columns: 92px minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+@container (max-width: 520px) {
+  .admin-cita {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
+  .admin-cita > .estado {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+/* Panel "Por confirmar": la hora va arriba del nombre para que el nombre tenga todo el ancho */
+.act-panel-lista li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "hora accion" "nombre accion";
+  column-gap: 12px;
+  row-gap: 2px;
+}
+
+.act-panel-hora {
+  grid-area: hora;
+  width: auto;
+  font-size: 13px;
+}
+
+.act-panel-nombre {
+  grid-area: nombre;
+}
+
+.act-panel-enviar,
+.act-panel-reenviar {
+  grid-area: accion;
+  align-self: center;
+}
+
+/* Tarjeta del usuario del menú: ellipsis garantizado */
+.sidebar-usuario {
+  overflow: hidden;
+}
+
+/* Listas de citas del admin en columnas angostas: la hora nunca se parte y la fecha se lee completa */
+.admin-cita-hora strong {
+  white-space: nowrap;
+}
+
+.admin-cita-hora span {
+  white-space: normal;
+  overflow: visible;
+}
+
+@container (max-width: 520px) {
+  .admin-cita {
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: 14px;
+  }
+}
+
+/* Agenda: la hora nunca se parte en dos renglones */
+.agenda-time strong {
+  white-space: nowrap;
+}
+
+.agenda-item {
+  grid-template-columns: max-content minmax(0, 1fr) auto;
+  column-gap: 18px;
+}
+
+@container (max-width: 640px) {
+  .agenda-item {
+    grid-template-columns: max-content minmax(0, 1fr);
+  }
+}
+
+/* "Próximas citas": estado y botones en una sola fila (la regla .upcoming-item > div los apilaba) */
+.upcoming-item > .agenda-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Columna de hora con ancho fijo: los datos de todas las filas quedan alineados */
+.agenda-item {
+  grid-template-columns: 112px minmax(0, 1fr) auto;
+}
+
+@container (max-width: 640px) {
+  .agenda-item {
+    grid-template-columns: 112px minmax(0, 1fr);
+  }
+}
+
+@container (max-width: 520px) {
+  .admin-cita {
+    grid-template-columns: 96px minmax(0, 1fr);
+  }
+}
+
+/* ── Arreglos del inventario (recorrido) ─────────────────────────────────── */
+/* Tablas de módulos: el panel lateral solo aparece al crear o editar; si no, la tabla usa todo el ancho */
+.split.solo {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+/* Tablas: celdas más compactas; fechas en una línea y nombres en máximo dos renglones */
+.table-wrap {
+  container-type: inline-size;
+}
+
+.table-wrap th,
+.table-wrap td {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.table-wrap th:first-child,
+.table-wrap td:first-child {
+  padding-left: 20px;
+}
+
+.table-wrap td {
+  text-wrap: balance;
+}
+
+.table-wrap td .nowrap {
+  white-space: nowrap;
+}
+
+/* El motivo se lee al abrir la cita; si la tabla no cabe, esa columna se oculta antes que el estado */
+@container (max-width: 1100px) {
+  .table-wrap .col-motivo {
+    display: none;
+  }
+}
+
+/* Inicio de la médica: la hora nunca se parte ni se encima con el estado */
+.appointment-row {
+  grid-template-columns: 112px minmax(0, 1fr) auto;
+}
+
+.appointment-list.compact .appointment-row {
+  grid-template-columns: 104px minmax(0, 1fr);
+}
+
+.appointment-time strong {
+  white-space: nowrap;
+}
+
+/* Métrica con texto (p. ej. "Próxima cita" de la paciente): fecha y hora en dos renglones */
+.metric.texto strong {
+  font-size: clamp(17px, 10cqi, 22px);
+  line-height: 1.25;
+  white-space: normal;
+}
+
+/* Mis citas: pestañas en tipo oración */
+.patient-tabs button {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 14px;
+}
+
+/* La columna de acciones queda fija a la derecha aunque la tabla tenga que desplazarse */
+.table-wrap th.col-acciones,
+.table-wrap td.col-acciones {
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  background: var(--blanco);
+  box-shadow: -10px 0 12px -10px rgba(32, 55, 59, 0.18);
+}
+
+.table-wrap thead th.col-acciones {
+  background: var(--surface-soft);
+}
+
+.table-wrap tr:hover td.col-acciones {
+  background: var(--lienzo);
+}
+
+/* Tooltip del último botón de la fila: alineado a la derecha para no salirse de la tabla */
+.table-wrap .col-acciones .row-actions > [data-tooltip]:last-child::after {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+/* Formulario en el panel lateral (crear/editar): una sola columna para que los selects no se corten */
+.split:not(.solo) > :last-child .form-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Con el panel de edición abierto la tabla es angosta: solo las dos primeras columnas y las acciones */
+@container (max-width: 680px) {
+  .table-wrap th:nth-child(n + 3):not(.col-acciones),
+  .table-wrap td:nth-child(n + 3):not(.col-acciones) {
+    display: none;
+  }
+
+  .table-wrap table {
+    min-width: 0;
+  }
+}
+
+/* Próximas 5 citas (lista compacta): el estado va bajo el texto, en la segunda columna */
+.appointment-list.compact .appointment-row > :last-child {
+  grid-column: 2;
+  justify-self: start;
+}

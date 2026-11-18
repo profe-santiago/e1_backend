@@ -40,7 +40,7 @@ public class ConsultorioService {
 
     public ConsultorioResponse crear(ConsultorioRequest req) {
         Organizacion org = orgRepo.findById(req.getOrganizacionId())
-                .orElseThrow(() -> new ResourceNotFoundException("Organizacion", req.getOrganizacionId().toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("Organización", req.getOrganizacionId().toString()));
         Consultorio c = new Consultorio();
         c.setOrganizacion(org);
         c.setNombre(req.getNombre());
@@ -60,5 +60,13 @@ public class ConsultorioService {
 
     public void eliminar(UUID id) {
         repo.deleteById(id);
+    }
+
+    @org.springframework.transaction.annotation.Transactional
+    public ConsultorioResponse toggleActivo(UUID id) {
+        Consultorio c = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Consultorio", id.toString()));
+        c.setActivo(!Boolean.TRUE.equals(c.getActivo()));
+        return ConsultorioMapper.toResponse(repo.save(c));
     }
 }

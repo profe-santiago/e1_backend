@@ -104,6 +104,19 @@ public class PacienteController {
         return service.actualizar(id, req);
     }
 
+    @PatchMapping("/{id}/activo")
+    @Operation(summary = "Alternar estado activo/inactivo de un paciente")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Estado actualizado"),
+        @ApiResponse(responseCode = "401", description = "Token requerido"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos"),
+        @ApiResponse(responseCode = "404", description = "Paciente no encontrado")
+    })
+    @PreAuthorize("hasAnyRole('" + Roles.ADMIN + "', '" + Roles.MEDICO + "')")
+    public PacienteResponse toggleActivo(@PathVariable UUID id) {
+        return service.toggleActivo(id);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Eliminar un paciente")

@@ -1,0 +1,757 @@
+/* ── Vista "Actividad" (propuesta visual CliniClick) ───────────────────────── */
+
+.act {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Encabezado */
+.act-encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.act-encabezado > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.act-eyebrow,
+.act-grupo h3 {
+  color: var(--laguna-texto);
+  font-family: var(--fuente-titulos);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.act-encabezado h1 {
+  margin: 0;
+  font-family: var(--fuente-titulos);
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.act-encabezado-acciones {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.act-medico {
+  min-height: var(--toque-min);
+  padding: 0 12px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-sm);
+  background: var(--blanco);
+  color: var(--tinta);
+  font: inherit;
+}
+
+.act-icono-btn {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--linea);
+  border-radius: 16px;
+  background: var(--blanco);
+  color: var(--tinta);
+  cursor: pointer;
+}
+
+.act-icono-btn:hover {
+  background: var(--lienzo);
+}
+
+/* Fila: resumen + panel */
+.act-fila {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* ── Resumen del próximo día ── */
+.act-manana {
+  flex: 3 1 520px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 30px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-lg);
+  background: var(--blanco);
+}
+
+.act-manana.vacio {
+  flex-direction: row;
+  align-items: center;
+}
+
+.act-manana.vacio h2 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.act-manana.vacio p {
+  margin: 0;
+  color: var(--texto-2);
+}
+
+.act-manana-cabeza {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.act-manana-cabeza > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.act-subtitulo {
+  color: var(--texto-2);
+  font-size: 14px;
+}
+
+.act-manana h2 {
+  margin: 0;
+  font-family: var(--fuente-titulos);
+  font-size: clamp(24px, 2.6vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.act-leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+}
+
+.act-leyenda li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.act-muestra {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.act-muestra.confirmada { background: var(--laguna); }
+.act-muestra.pendiente { background: var(--lima); border: 1px solid var(--tinta); }
+.act-muestra.cancelada { background: var(--estado-cancelada-bg); border: 1px solid var(--cancelada); }
+
+/* Tira de horas */
+/* Una sola fila: columnas flexibles (caben ~8); si hay más, scroll horizontal en vez de partirse */
+.act-tira {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(70px, 1fr);
+  gap: 8px;
+  margin: 0;
+  padding: 0 0 6px;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: var(--linea) transparent;
+}
+
+.act-tira-item {
+  scroll-snap-align: start;
+}
+
+.act-tira-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.act-tira-bloque {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: var(--radio-sm);
+  font-family: var(--fuente-titulos);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* Confirmada en laguna-botón: el blanco de 15 px pasa 4.5:1 (con #228682 no) */
+.act-tira-bloque.confirmada { background: var(--laguna-boton); color: var(--blanco); }
+.act-tira-bloque.pendiente { background: var(--lima); color: var(--tinta); }
+.act-tira-bloque.cancelada { background: var(--estado-cancelada-bg); color: var(--estado-cancelada-fg); border: 1px solid var(--estado-cancelada-borde); }
+.act-tira-bloque.noasistio { background: var(--estado-noasistio-bg); color: var(--estado-noasistio-fg); }
+.act-tira-bloque.reagendada { background: var(--estado-reagendada-bg); color: var(--estado-reagendada-fg); }
+
+.act-tira-nombre {
+  overflow: hidden;
+  color: var(--texto-2);
+  font-size: 12px;
+  line-height: 1.3;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.act-aviso-primero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  border-radius: var(--radio-md);
+  background: var(--lienzo);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.act-aviso-primero b {
+  font-weight: 600;
+}
+
+.act-aviso-primero.listo {
+  justify-content: flex-start;
+  gap: 8px;
+  color: var(--laguna-texto);
+  font-weight: 600;
+}
+
+.act-boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 16px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.act-boton.primario {
+  background: var(--laguna-boton);
+  color: var(--blanco);
+}
+
+.act-boton.primario:hover {
+  background: var(--laguna-texto);
+}
+
+/* ── Panel "Por confirmar" (Tinta) ── */
+.act-panel {
+  flex: 2 1 340px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 28px;
+  border-radius: var(--radio-lg);
+  background: var(--tinta);
+  color: var(--blanco);
+}
+
+.act-panel:focus-visible {
+  outline: 3px solid var(--lima);
+  outline-offset: 3px;
+}
+
+.act-panel-cabeza {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.act-panel-cabeza h2 {
+  margin: 0;
+  color: var(--blanco);
+  font-family: var(--fuente-titulos);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.act-panel-cabeza span,
+.act-panel-nota {
+  color: var(--bruma);
+  font-size: 14px;
+}
+
+.act-panel-nota {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.act-panel-listo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--bruma);
+}
+
+.act-progreso {
+  height: 8px;
+  overflow: hidden;
+  border-radius: var(--radio-pill);
+  background: rgba(195, 231, 241, 0.2);
+}
+
+.act-progreso span {
+  display: block;
+  height: 8px;
+  border-radius: var(--radio-pill);
+  background: var(--lima);
+  transition: width 0.3s ease;
+}
+
+.act-panel-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.act-panel-lista li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 8px 10px 8px 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.act-panel-lista li.siguiente {
+  box-shadow: inset 0 0 0 1.5px var(--lima);
+}
+
+.act-panel-hora {
+  flex: none;
+  width: 74px;
+  color: var(--lima);
+  font-family: var(--fuente-titulos);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.act-panel-nombre {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+}
+
+.act-panel-nombre-texto {
+  overflow: hidden;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.act-panel-estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--bruma);
+  font-size: 12px;
+}
+
+.act-panel-nombre small {
+  color: var(--bruma);
+  font-size: 12px;
+}
+
+.act-panel-enviar {
+  min-height: var(--toque-min);
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--radio-sm);
+  background: var(--blanco);
+  color: var(--tinta);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.act-panel-enviar:hover {
+  background: var(--bruma);
+}
+
+.act-panel-enviar:disabled,
+.act-panel-reenviar:disabled,
+.act-panel-todos:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.act-panel-enviado,
+.act-panel-sin {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--toque-min);
+  color: var(--bruma);
+  font-size: 13px;
+}
+
+.act-panel-reenviar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--toque-min);
+  height: var(--toque-min);
+  border: 1px solid rgba(195, 231, 241, 0.35);
+  border-radius: var(--radio-sm);
+  background: transparent;
+  color: var(--blanco);
+  cursor: pointer;
+}
+
+.act-panel-reenviar:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.act-panel-todos {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--lima);
+  color: var(--tinta);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.act-panel button:focus-visible {
+  outline: 2px solid var(--lima);
+  outline-offset: 2px;
+}
+
+/* ── "Lo que ha pasado" ── */
+.act-historia {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 30px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-lg);
+  background: var(--blanco);
+}
+
+.act-historia-cabeza {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.act-historia-cabeza h2 {
+  margin: 0;
+  font-family: var(--fuente-titulos);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.act-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.act-filtro {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--toque-min);
+  padding: 0 16px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-pill);
+  background: var(--blanco);
+  color: var(--tinta);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.act-filtro:hover {
+  background: var(--lienzo);
+}
+
+.act-filtro.activo {
+  border-color: var(--tinta);
+  background: var(--tinta);
+  color: var(--blanco);
+}
+
+.act-cuenta {
+  min-width: 22px;
+  padding: 0 6px;
+  border-radius: var(--radio-pill);
+  background: var(--lienzo);
+  color: var(--tinta);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.act-filtro.activo .act-cuenta {
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--blanco);
+}
+
+.act-cuenta.nuevo,
+.act-filtro.activo .act-cuenta.nuevo {
+  background: var(--lima);
+  color: var(--tinta);
+}
+
+.act-marcar {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--toque-min);
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--radio-sm);
+  background: var(--bruma);
+  color: var(--tinta);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.act-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.act-grupo h3 {
+  margin: 0;
+  padding-bottom: 6px;
+  color: var(--texto-2);
+  letter-spacing: 0.14em;
+}
+
+.act-linea {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.act-linea li:last-child .act-aviso-linea {
+  visibility: hidden;
+}
+
+.act-aviso {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radio-sm);
+  background: transparent;
+  color: var(--tinta);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.act-aviso:hover .act-aviso-frase {
+  text-decoration: underline;
+  text-decoration-color: var(--linea);
+  text-underline-offset: 4px;
+}
+
+.act-aviso-riel {
+  flex: none;
+  width: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.act-aviso-icono {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radio-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.act-aviso-icono.confirmacion { background: var(--estado-confirmada-bg); color: var(--estado-confirmada-fg); }
+.act-aviso-icono.cancelacion { background: var(--estado-cancelada-bg); color: var(--estado-cancelada-fg); }
+.act-aviso-icono.recordatorio { background: var(--bruma-suave); color: var(--tinta); }
+.act-aviso-icono.fallido { background: var(--estado-noasistio-bg); color: var(--estado-cancelada-fg); }
+
+.act-aviso-linea {
+  flex: 1;
+  width: 2px;
+  min-height: 14px;
+  background: var(--linea);
+}
+
+.act-aviso-texto {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 0 22px;
+}
+
+.act-aviso-frase {
+  font-size: 16px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.act-aviso-frase b {
+  font-weight: 600;
+}
+
+.act-aviso-detalle {
+  color: var(--texto-2);
+  font-size: 13px;
+}
+
+.act-nuevo {
+  flex: none;
+  align-self: flex-start;
+  margin-top: 10px;
+  padding: 4px 10px;
+  border-radius: var(--radio-pill);
+  background: var(--lima);
+  color: var(--tinta);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.act-pie {
+  margin: 0;
+  color: var(--texto-2);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ── Vacío y carga ── */
+.act-vacio {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: var(--space-2xl) var(--space-md);
+  text-align: center;
+}
+
+.act-vacio p {
+  margin: 0;
+  color: var(--texto-2);
+}
+
+.act-vacio-icono {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radio-md);
+  background: var(--bruma-suave);
+  color: var(--laguna-texto);
+}
+
+.act-esqueleto {
+  display: grid;
+  gap: 12px;
+}
+
+.act-skel-fila {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.act-skel {
+  border-radius: var(--radio-sm);
+  background: var(--linea);
+  animation: act-pulso 1.2s ease-in-out infinite alternate;
+}
+
+.act-skel.cuadro { width: 44px; height: 44px; }
+.act-skel.linea { flex: 1; height: 16px; }
+.act-skel.titulo { width: 260px; height: 34px; }
+.act-skel.bloque { height: 64px; }
+
+@keyframes act-pulso {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .act-skel { animation: none; }
+}
+
+/* ── Celular ── */
+@media (max-width: 720px) {
+  .act-manana,
+  .act-panel,
+  .act-historia {
+    padding: 20px 16px;
+    border-radius: var(--radio-md);
+  }
+
+  .act-tira {
+    grid-auto-columns: minmax(66px, 1fr);
+  }
+
+  .act-aviso-primero .act-boton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .act-panel-hora {
+    width: 70px;
+  }
+}

@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import com.clinica.mi_app.security.Roles;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -55,16 +54,13 @@ public class PagoController {
     }
 
     @GetMapping("/cita/{citaId}")
-    @Operation(summary = "Buscar el pago asociado a una cita")
+    @Operation(summary = "Listar los pagos asociados a una cita", description = "Devuelve [] si la cita no tiene pagos")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Pago encontrado"),
-        @ApiResponse(responseCode = "401", description = "Token requerido"),
-        @ApiResponse(responseCode = "404", description = "Pago no encontrado")
+        @ApiResponse(responseCode = "200", description = "Lista de pagos (vacía si no hay)"),
+        @ApiResponse(responseCode = "401", description = "Token requerido")
     })
-    public ResponseEntity<PagoResponse> buscarPorCita(@PathVariable UUID citaId) {
-        return service.buscarPorCita(citaId)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public List<PagoResponse> listarPorCita(@PathVariable UUID citaId) {
+        return service.listarPorCita(citaId);
     }
 
     @GetMapping("/{id}")

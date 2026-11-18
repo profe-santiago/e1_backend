@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  auth-mock:
+    image: wiremock/wiremock:3.9.1
+    container_name: auth-mock
+    ports:
+      - "4001:8080"
+    volumes:
+      - ./mappings:/home/wiremock/mappings
+    command: ["--global-response-templating"]
+    networks:
+      - clinicamvp_default   # <- AJUSTA este nombre, ver nota abajo
+
+networks:
+  clinicamvp_default:
+    external: true

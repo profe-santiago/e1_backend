@@ -12,17 +12,19 @@ public class MedicoMapper {
         r.setNombre(m.getNombre());
         r.setEspecialidad(m.getEspecialidad());
         r.setTarifaBase(m.getTarifaBase());
-        r.setConsultorioId(m.getConsultorio().getId());
-        r.setConsultorioNombre(m.getConsultorio().getNombre());
-        r.setConsultorioDireccion(m.getConsultorio().getDireccion());
+        if (m.getConsultorio() != null) {
+            r.setConsultorioId(m.getConsultorio().getId());
+            r.setConsultorioNombre(m.getConsultorio().getNombre());
+            r.setConsultorioDireccion(m.getConsultorio().getDireccion());
+        }
         return r;
     }
 
     public static MedicoResponse toResponse(Medico m) {
         MedicoResponse r = new MedicoResponse();
         r.setId(m.getId());
-        r.setOrganizacionId(m.getOrganizacion().getId());
-        r.setConsultorioId(m.getConsultorio().getId());
+        r.setOrganizacionId(m.getOrganizacion() != null ? m.getOrganizacion().getId() : null);
+        r.setConsultorioId(m.getConsultorio() != null ? m.getConsultorio().getId() : null);
         r.setNombre(m.getNombre());
         r.setEspecialidad(m.getEspecialidad());
         r.setCedula(m.getCedula());

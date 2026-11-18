@@ -35,12 +35,15 @@ public class HorarioMedicoService {
 
     public HorarioMedicoResponse buscarPorId(UUID id) {
         return repo.findById(id).map(HorarioMedicoMapper::toResponse)
-                .orElseThrow(() -> new ResourceNotFoundException("HorarioMedico", id.toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("Horario del médico", id.toString()));
     }
 
     public HorarioMedicoResponse crear(HorarioMedicoRequest req) {
         Medico medico = medicoRepo.findById(req.getMedicoId())
-                .orElseThrow(() -> new ResourceNotFoundException("Medico", req.getMedicoId().toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("Médico", req.getMedicoId().toString()));
+        if (repo.existsByMedicoIdAndDiaSemana(req.getMedicoId(), req.getDiaSemana())) {
+            throw new IllegalArgumentException("El médico ya tiene un horario registrado para este día.");
+        }
         HorarioMedico h = new HorarioMedico();
         h.setMedico(medico);
         h.setDiaSemana(req.getDiaSemana());
@@ -52,7 +55,10 @@ public class HorarioMedicoService {
 
     public HorarioMedicoResponse actualizar(UUID id, HorarioMedicoRequest req) {
         HorarioMedico h = repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("HorarioMedico", id.toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("Horario del médico", id.toString()));
+        if (repo.existsByMedicoIdAndDiaSemanaAndIdNot(h.getMedico().getId(), req.getDiaSemana(), id)) {
+            throw new IllegalArgumentException("El médico ya tiene un horario registrado para este día.");
+        }
         h.setDiaSemana(req.getDiaSemana());
         h.setHoraInicio(req.getHoraInicio());
         h.setHoraFin(req.getHoraFin());

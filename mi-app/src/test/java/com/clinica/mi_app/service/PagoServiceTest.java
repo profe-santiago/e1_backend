@@ -13,12 +13,14 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 
+import com.clinica.mi_app.config.ClinicaReloj;
 import com.clinica.mi_app.dto.request.PagoRequest;
 import com.clinica.mi_app.dto.response.PagoResponse;
 import com.clinica.mi_app.exception.ResourceNotFoundException;
@@ -39,6 +41,11 @@ public class PagoServiceTest {
 
     @Mock
     private CitaRepository citaRepository;
+
+    /** 16:00Z reales = 10:00 en la clínica → ahora de la clínica = 2026-11-10T10:00Z. */
+    @Spy
+    private ClinicaReloj clinicaReloj = new ClinicaReloj(
+            java.time.Clock.fixed(java.time.Instant.parse("2026-11-10T16:00:00Z"), java.time.ZoneOffset.UTC));
 
     @InjectMocks
     private PagoService pagoService;
@@ -238,5 +245,125 @@ public class PagoServiceTest {
         // Assert
         assertNotNull(response);
         verify(pagoRepository, times(1)).save(any(Pago.class));
+    }
+
+    // ── Estado PAGADO / pagadoEn y pagos por cita ──────────────────────────────────
+
+    private static final java.time.OffsetDateTime AHORA_CLINICA = java.time.OffsetDateTime.parse("2026-11-10T10:00:00Z");
+
+    private PagoRequest requestBase(String estado) {
+        PagoRequest request = new PagoRequest();
+        request.setOrganizacionId(organizacionId);
+        request.setCitaId(citaId);
+        request.setMonto(new BigDecimal("650.00"));
+        request.setMetodo("EFECTIVO");
+        request.setEstado(estado);
+        return request;
+    }
+
+    private void prepararCrear() {
+        Organizacion org = new Organizacion();
+        org.setId(organizacionId);
+        Cita cita = new Cita();
+        cita.setId(citaId);
+        when(organizacionRepository.findById(organizacionId)).thenReturn(Optional.of(org));
+        when(citaRepository.findById(citaId)).thenReturn(Optional.of(cita));
+        when(pagoRepository.save(any(Pago.class))).thenAnswer(inv -> inv.getArgument(0));
+    }
+
+    private Pago pagoExistente(String estado, java.time.OffsetDateTime pagadoEn) {
+        Organizacion org = new Organizacion();
+        org.setId(organizacionId);
+        Cita cita = new Cita();
+        cita.setId(citaId);
+        Pago p = new Pago();
+        p.setId(pagoId);
+        p.setOrganizacion(org);
+        p.setCita(cita);
+        p.setMonto(new BigDecimal("650.00"));
+        p.setMetodo("EFECTIVO");
+        p.setEstado(estado);
+        p.setPagadoEn(pagadoEn);
+        when(pagoRepository.findById(pagoId)).thenReturn(Optional.of(p));
+        when(pagoRepository.save(any(Pago.class))).thenAnswer(inv -> inv.getArgument(0));
+        return p;
+    }
+
+    @Test
+    public void testCrear_conEstadoPagado_llenaPagadoEnConHoraDeLaClinica() {
+        prepararCrear();
+
+        PagoResponse r = pagoService.crear(requestBase("PAGADO"));
+
+        assertEquals("PAGADO", r.getEstado());
+        assertEquals(AHORA_CLINICA, r.getPagadoEn());
+    }
+
+    @Test
+    public void testCrear_sinEstado_quedaPendienteSinPagadoEn() {
+        prepararCrear();
+
+        PagoResponse r = pagoService.crear(requestBase(null));
+
+        assertEquals("PENDIENTE", r.getEstado());
+        org.junit.jupiter.api.Assertions.assertNull(r.getPagadoEn());
+    }
+
+    @Test
+    public void testActualizar_aPagadoSinPagadoEn_loLlena() {
+        pagoExistente("PENDIENTE", null);
+
+        PagoResponse r = pagoService.actualizar(pagoId, requestBase("PAGADO"));
+
+        assertEquals("PAGADO", r.getEstado());
+        assertEquals(AHORA_CLINICA, r.getPagadoEn());
+    }
+
+    @Test
+    public void testActualizar_aPagadoConPagadoEnExistente_loConserva() {
+        java.time.OffsetDateTime previo = java.time.OffsetDateTime.parse("2026-11-01T12:35:00Z");
+        pagoExistente("PAGADO", previo);
+
+        PagoResponse r = pagoService.actualizar(pagoId, requestBase("PAGADO"));
+
+        assertEquals(previo, r.getPagadoEn());
+    }
+
+    @Test
+    public void testActualizar_aPendiente_limpiaPagadoEn() {
+        pagoExistente("PAGADO", AHORA_CLINICA);
+
+        PagoResponse r = pagoService.actualizar(pagoId, requestBase("PENDIENTE"));
+
+        assertEquals("PENDIENTE", r.getEstado());
+        org.junit.jupiter.api.Assertions.assertNull(r.getPagadoEn());
+    }
+
+    @Test
+    public void testActualizar_sinEstado_conservaEstadoYPagadoEn() {
+        pagoExistente("PAGADO", AHORA_CLINICA);
+
+        PagoResponse r = pagoService.actualizar(pagoId, requestBase(null));
+
+        assertEquals("PAGADO", r.getEstado());
+        assertEquals(AHORA_CLINICA, r.getPagadoEn());
+    }
+
+    @Test
+    public void testListarPorCita_sinPagos_devuelveListaVacia() {
+        when(pagoRepository.findByCitaId(citaId)).thenReturn(List.of());
+
+        assertEquals(List.of(), pagoService.listarPorCita(citaId));
+    }
+
+    @Test
+    public void testListarPorCita_conPago_devuelveUnElemento() {
+        Pago p = pagoExistente("PAGADO", AHORA_CLINICA);
+        when(pagoRepository.findByCitaId(citaId)).thenReturn(List.of(p));
+
+        List<PagoResponse> r = pagoService.listarPorCita(citaId);
+
+        assertEquals(1, r.size());
+        assertEquals(pagoId, r.get(0).getId());
     }
 }

@@ -1,7 +1,9 @@
 package com.clinica.mi_app.controller;
 
 import com.clinica.mi_app.dto.request.NotificacionRequest;
+import com.clinica.mi_app.dto.response.CampanaResponse;
 import com.clinica.mi_app.dto.response.NotificacionResponse;
+import com.clinica.mi_app.security.AuthenticatedUser;
 import com.clinica.mi_app.service.NotificacionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -15,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -27,6 +30,33 @@ public class NotificacionController {
 
     public NotificacionController(NotificacionService service) {
         this.service = service;
+    }
+
+    @GetMapping("/recientes")
+    @Operation(summary = "Campana: cancelaciones recientes del paciente y contador de no leídas",
+            description = "ADMIN ve toda su organización; MEDICO solo las de sus citas")
+    @PreAuthorize("hasAnyRole('" + Roles.ADMIN + "', '" + Roles.MEDICO + "')")
+    public CampanaResponse recientes() {
+        return service.campana(AuthenticatedUser.getOrganizacionId(), medicoRestringido());
+    }
+
+    @PatchMapping("/{id}/leida")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Marcar una notificación como leída")
+    @PreAuthorize("hasAnyRole('" + Roles.ADMIN + "', '" + Roles.MEDICO + "')")
+    public void marcarLeida(@PathVariable UUID id) {
+        service.marcarLeida(AuthenticatedUser.getOrganizacionId(), medicoRestringido(), id);
+    }
+
+    @PostMapping("/leidas")
+    @Operation(summary = "Marcar todas las cancelaciones como leídas")
+    @PreAuthorize("hasAnyRole('" + Roles.ADMIN + "', '" + Roles.MEDICO + "')")
+    public Map<String, Integer> marcarTodas() {
+        return Map.of("marcadas", service.marcarTodasLeidas(AuthenticatedUser.getOrganizacionId(), medicoRestringido()));
+    }
+
+    private static UUID medicoRestringido() {
+        return Roles.MEDICO.equals(AuthenticatedUser.getRol()) ? AuthenticatedUser.getMedicoId() : null;
     }
 
     @GetMapping("/cita/{citaId}")

@@ -94,6 +94,13 @@ public class ConsultorioController {
         return service.actualizar(id, req);
     }
 
+    @PatchMapping("/{id}/activo")
+    @Operation(summary = "Activar o desactivar un consultorio")
+    @PreAuthorize("hasRole('" + Roles.ADMIN + "')")
+    public ConsultorioResponse toggleActivo(@PathVariable UUID id) {
+        return service.toggleActivo(id);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Eliminar un consultorio")

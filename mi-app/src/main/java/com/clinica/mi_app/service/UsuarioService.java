@@ -49,7 +49,7 @@ public class UsuarioService {
 
     public UsuarioResponse crear(UsuarioRequest req) {
         Organizacion org = orgRepo.findById(req.getOrganizacionId())
-                .orElseThrow(() -> new ResourceNotFoundException("Organizacion", req.getOrganizacionId().toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("Organización", req.getOrganizacionId().toString()));
         Usuario u = new Usuario();
         u.setOrganizacion(org);
         u.setEmail(req.getEmail());
@@ -57,7 +57,7 @@ public class UsuarioService {
         u.setPasswordHash(passwordEncoder.encode(req.getPassword()));
         if (req.getMedicoId() != null) {
             Medico medico = medicoRepo.findById(req.getMedicoId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Medico", req.getMedicoId().toString()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Médico", req.getMedicoId().toString()));
             u.setMedico(medico);
         }
         return UsuarioMapper.toResponse(repo.save(u));
@@ -70,7 +70,7 @@ public class UsuarioService {
         u.setRol(req.getRol());
         if (req.getMedicoId() != null) {
             Medico medico = medicoRepo.findById(req.getMedicoId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Medico", req.getMedicoId().toString()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Médico", req.getMedicoId().toString()));
             u.setMedico(medico);
         }
         return UsuarioMapper.toResponse(repo.save(u));

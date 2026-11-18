@@ -12,7 +12,7 @@
 ---
 ## Resumen del Proyecto
 MediFlow es una solución integral diseñada para gestionar múltiples clínicas de forma independiente dentro de una misma plataforma. El sistema permite la gestión de citas médicas, procesamiento de pagos, diagnósticos especializados y cuenta con un microservicio dedicado de Inteligencia Artificial para asistencia en el dominio médico.
-# MedInFlow ClinicaMVP
+# CliniClick (ClinicaMVP)
 Sistema de administración para clínicas y consultorios privados · DSD-2303
 
 [![Tests CI](https://github.com/galileaCrazy/e1_backend/actions/workflows/test.yml/badge.svg)](https://github.com/galileaCrazy/e1_backend/actions/workflows/test.yml)

@@ -1,0 +1,411 @@
+/* ── Pase de cita /c/{token} (celular del paciente) ──────────────────────────── */
+.pase {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--lienzo);
+  color: var(--tinta);
+  font-family: var(--fuente-texto);
+}
+
+/* Encabezado Laguna. Se usa el tono de botón (#1F7A76) para que el texto blanco de 16 px pase 4.5:1. */
+.pase-cabeza {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 28px 24px 96px;
+  background: var(--laguna-boton);
+}
+
+.pase-corazon {
+  position: absolute;
+  top: -60px;
+  right: -90px;
+  width: 300px;
+  height: 276px;
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.pase-corazon path {
+  fill: none;
+  stroke: var(--bruma);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.pase-logo {
+  position: relative;
+  display: block;
+  width: 120px;
+  height: auto;
+}
+
+.pase-saludo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 480px;
+}
+
+.pase-saludo h1 {
+  margin: 0;
+  color: var(--blanco);
+  font-family: var(--fuente-titulos);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.pase-saludo p {
+  margin: 0;
+  color: var(--blanco);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.pase-cuerpo {
+  width: 100%;
+  max-width: 480px;
+  margin: -72px auto 0;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Tarjeta tipo boleto */
+.pase-tarjeta {
+  position: relative;
+  border-radius: 26px;
+  background: var(--blanco);
+  box-shadow: 0 14px 40px rgba(32, 55, 59, 0.14);
+}
+
+.pase-boleto {
+  display: flex;
+  flex-direction: column;
+}
+
+.pase-boleto.cancelado .pase-hora-valor,
+.pase-boleto.cancelado .pase-fecha-num {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.pase-boleto-arriba {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 22px 18px;
+}
+
+.pase-fecha {
+  flex: none;
+  width: 76px;
+  height: 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-radius: 18px;
+  background: var(--tinta);
+  color: var(--blanco);
+}
+
+.pase-fecha-dia {
+  color: var(--lima);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.pase-fecha-num {
+  font-family: var(--fuente-titulos);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.pase-fecha-mes {
+  color: var(--bruma);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.pase-hora {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pase-hora-valor {
+  font-family: var(--fuente-titulos);
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.pase-hora-valor small {
+  font-size: 18px;
+}
+
+.pase-hora-detalle {
+  color: var(--texto-2);
+  font-size: 14px;
+}
+
+/* Corte punteado con muescas (círculos del color del fondo) */
+.pase-corte {
+  position: relative;
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.pase-corte::before,
+.pase-corte::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--lienzo);
+}
+
+.pase-corte::before { left: -12px; }
+.pase-corte::after { right: -12px; }
+
+.pase-corte span {
+  flex: 1;
+  margin: 0 22px;
+  border-top: 2px dashed var(--linea);
+}
+
+.pase-datos {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 14px 22px 22px;
+}
+
+.pase-datos > div {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.pase-datos dt {
+  flex: none;
+  margin-top: 2px;
+  color: var(--laguna-texto);
+}
+
+.pase-datos dd {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pase-datos strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.pase-datos dd span {
+  color: var(--texto-2);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* Acciones */
+.pase-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pase-boton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 18px;
+  font-family: var(--fuente-texto);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pase-boton.primario {
+  background: var(--laguna-boton);
+  color: var(--blanco);
+  font-size: 17px;
+}
+
+.pase-boton.primario:hover {
+  background: var(--laguna-texto);
+}
+
+.pase-boton.peligro {
+  border: 1.5px solid var(--estado-cancelada-borde);
+  background: var(--blanco);
+  color: var(--estado-cancelada-fg);
+}
+
+.pase-boton.peligro-lleno {
+  background: var(--estado-cancelada-fg);
+  color: var(--blanco);
+}
+
+.pase-boton.secundario {
+  border: 1.5px solid var(--tinta);
+  background: var(--blanco);
+  color: var(--tinta);
+}
+
+.pase-boton:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.pase-boton:focus-visible,
+.pase-llamar:focus-visible {
+  outline: var(--foco);
+  outline-offset: 3px;
+}
+
+.pase-pregunta {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: var(--radio-sm);
+  background: var(--estado-cancelada-bg);
+  color: var(--estado-cancelada-fg);
+  line-height: 1.5;
+}
+
+.pase-ya {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: var(--radio-sm);
+  background: var(--estado-confirmada-bg);
+  color: var(--estado-confirmada-fg);
+  font-weight: 600;
+}
+
+.pase-llamar {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--toque-min);
+  color: var(--laguna-texto);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.pase-resultado {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px 18px;
+  border-radius: var(--radio-md);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.pase-resultado.ok {
+  background: var(--estado-confirmada-bg);
+  color: var(--estado-confirmada-fg);
+}
+
+.pase-resultado.cancelada {
+  background: var(--estado-cancelada-bg);
+  color: var(--estado-cancelada-fg);
+}
+
+.pase-resultado svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+/* Estados de carga / error */
+.pase-estado {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.pase-estado p {
+  margin: 0;
+  color: var(--tinta);
+  line-height: 1.55;
+}
+
+.pase-icono.ok { color: var(--laguna-texto); }
+.pase-icono.aviso { color: var(--estado-cancelada-fg); }
+.pase-icono.tenue { color: var(--texto-2); }
+
+.pase-pie {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 32px 24px 26px;
+  color: var(--texto-2);
+  font-size: 13px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .pase-cabeza {
+    align-items: center;
+    text-align: center;
+  }
+
+  .pase-saludo {
+    align-items: center;
+  }
+}
+
+/* El corazón decorativo nunca cruza el texto: detrás y en la esquina */
+.pase-corazon {
+  z-index: 0;
+}
+
+.pase-logo,
+.pase-saludo {
+  z-index: 1;
+}
+
+@media (max-width: 639px) {
+  .pase-corazon {
+    top: -150px;
+    right: -170px;
+    opacity: 0.18;
+  }
+}

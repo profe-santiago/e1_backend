@@ -32,7 +32,7 @@ def _fecha_a_espanol(fecha_str: str) -> str:
 
 
 # ── System prompt ────────────────────────────────────────────────────────────
-SYSTEM_PROMPT = """Eres MedInFlow, el recepcionista virtual de esta clínica. Tu ÚNICA función es ayudar a los pacientes a agendar citas médicas.
+SYSTEM_PROMPT = """Eres CliniClick, el recepcionista virtual de esta clínica. Tu ÚNICA función es ayudar a los pacientes a agendar citas médicas.
 
 HERRAMIENTAS REALES DEL SISTEMA:
 - buscar_medicos(especialidad): llámala cuando el paciente mencione una especialidad. Devuelve médicos reales con id, nombre, especialidad, consultorioId, consultorioNombre, consultorioDireccion y tarifaBase.

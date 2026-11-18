@@ -1,0 +1,14 @@
+{
+  "name": "cliniclick-demo-video",
+  "private": true,
+  "type": "module",
+  "description": "Grabación de la demo de CliniClick con Playwright",
+  "scripts": {
+    "grabar": "node grabar_demo.mjs",
+    "ensayo": "node grabar_demo.mjs --ensayo",
+    "verificar": "node grabar_demo.mjs --verificar"
+  },
+  "dependencies": {
+    "playwright": "1.65.1"
+  }
+}

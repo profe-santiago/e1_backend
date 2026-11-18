@@ -16,6 +16,9 @@ public class AdjuntoResponse {
     private String mimeType;
     private Boolean notificar;
     private OffsetDateTime notificadoEn;
+    private String estado;
+    private String comentarioRevision;
+    private OffsetDateTime revisadoEn;
     private OffsetDateTime createdAt;
 
     public UUID getId() { return id; }
@@ -50,6 +53,15 @@ public class AdjuntoResponse {
 
     public OffsetDateTime getNotificadoEn() { return notificadoEn; }
     public void setNotificadoEn(OffsetDateTime notificadoEn) { this.notificadoEn = notificadoEn; }
+
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
+
+    public String getComentarioRevision() { return comentarioRevision; }
+    public void setComentarioRevision(String comentarioRevision) { this.comentarioRevision = comentarioRevision; }
+
+    public OffsetDateTime getRevisadoEn() { return revisadoEn; }
+    public void setRevisadoEn(OffsetDateTime revisadoEn) { this.revisadoEn = revisadoEn; }
 
     public OffsetDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }

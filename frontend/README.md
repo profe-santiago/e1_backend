@@ -1,6 +1,6 @@
-# MedInFlow Frontend
+# CliniClick Frontend
 
-Frontend React + Vite para consumir el backend Spring Boot de MedInFlow.
+Frontend React + Vite para consumir el backend Spring Boot de CliniClick.
 
 ## Levantarlo
 

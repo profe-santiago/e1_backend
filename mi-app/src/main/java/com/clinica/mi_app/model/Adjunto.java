@@ -31,10 +31,10 @@ public class Adjunto {
     @Column(nullable = false, length = 30)
     private String tipo;
 
-    @Column(name = "nombre_archivo", nullable = false, length = 200)
+    @Column(name = "nombre_archivo", length = 200)
     private String nombreArchivo;
 
-    @Column(name = "url_archivo", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "url_archivo", columnDefinition = "TEXT")
     private String urlArchivo;
 
     @Column(name = "mime_type", length = 80)
@@ -45,6 +45,15 @@ public class Adjunto {
 
     @Column(name = "notificado_en")
     private OffsetDateTime notificadoEn;
+
+    @Column(nullable = false, length = 20)
+    private String estado = "SUBIDO";
+
+    @Column(name = "comentario_revision", columnDefinition = "TEXT")
+    private String comentarioRevision;
+
+    @Column(name = "revisado_en")
+    private OffsetDateTime revisadoEn;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt = OffsetDateTime.now();
@@ -83,6 +92,15 @@ public class Adjunto {
 
     public OffsetDateTime getNotificadoEn() { return notificadoEn; }
     public void setNotificadoEn(OffsetDateTime notificadoEn) { this.notificadoEn = notificadoEn; }
+
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
+
+    public String getComentarioRevision() { return comentarioRevision; }
+    public void setComentarioRevision(String comentarioRevision) { this.comentarioRevision = comentarioRevision; }
+
+    public OffsetDateTime getRevisadoEn() { return revisadoEn; }
+    public void setRevisadoEn(OffsetDateTime revisadoEn) { this.revisadoEn = revisadoEn; }
 
     public OffsetDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }

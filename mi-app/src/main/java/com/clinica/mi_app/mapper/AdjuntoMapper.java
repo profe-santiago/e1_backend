@@ -18,6 +18,9 @@ public class AdjuntoMapper {
         r.setMimeType(a.getMimeType());
         r.setNotificar(a.getNotificar());
         r.setNotificadoEn(a.getNotificadoEn());
+        r.setEstado(a.getEstado());
+        r.setComentarioRevision(a.getComentarioRevision());
+        r.setRevisadoEn(a.getRevisadoEn());
         r.setCreatedAt(a.getCreatedAt());
         return r;
     }

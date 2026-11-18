@@ -1,0 +1,91 @@
+/* ── CliniClick · tokens de diseño ─────────────────────────────────────────────
+   Única fuente de colores, tipografía y radios. El resto del CSS usa estas variables
+   (directamente o por los alias de compatibilidad de abajo).
+
+   Reglas de uso:
+   - Texto o iconos chicos sobre blanco/Lienzo: --laguna-texto (nunca --laguna, no llega a 4.5:1).
+   - Botón primario: fondo --laguna-boton con texto blanco.
+   - --laguna: rellenos y piezas de marca SIN texto chico encima (barras, ítem activo con texto grande/blanco seminegrita).
+   - --lima: acento de "pendiente / nuevo". Solo como FONDO con texto --tinta, o sobre --tinta.
+     Nunca texto lima sobre blanco.
+   ──────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Paleta */
+  --tinta: #20373B;          /* texto principal, menú lateral, encabezados */
+  --laguna: #228682;         /* marca, rellenos */
+  --laguna-boton: #1F7A76;   /* fondo de botones (texto blanco) */
+  --laguna-texto: #1B6E6A;   /* texto/enlaces/iconos sobre claro */
+  --bruma: #C3E7F1;          /* fondos suaves, selección */
+  --bruma-suave: #E6F4F8;    /* fondo de iconos de recordatorio, hover suave */
+  --lima: #D0FF71;           /* acento: pendiente y nuevo */
+  --lienzo: #F5F8F7;         /* fondo de la app */
+  --blanco: #FFFFFF;
+  --linea: #DCE7E6;          /* bordes de 1 px */
+  --texto-2: #52666A;        /* texto secundario */
+  --cancelada: #B4432F;      /* solo estados de cancelación */
+
+  /* Estados de cita (fondo / texto) */
+  --estado-confirmada-bg: #DDF1EE;
+  --estado-confirmada-fg: #1B6E6A;
+  --estado-pendiente-bg: var(--lima);
+  --estado-pendiente-fg: var(--tinta);
+  --estado-cancelada-bg: #F7E1DC;
+  --estado-cancelada-fg: #9A3324;
+  --estado-cancelada-borde: #E6C2BA;
+  --estado-noasistio-bg: #EEF2F2;
+  --estado-noasistio-fg: #3F5256;
+  --estado-reagendada-bg: var(--bruma);
+  --estado-reagendada-fg: var(--tinta);
+
+  /* Tipografía */
+  --fuente-titulos: "Montserrat", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fuente-texto: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Radios */
+  --radio-sm: 14px;
+  --radio-md: 20px;
+  --radio-lg: 28px;
+  --radio-pill: 999px;
+
+  /* Sombras casi nulas (sin degradados ni sombras fuertes) */
+  --sombra-suave: 0 1px 2px rgba(32, 55, 59, 0.06);
+
+  /* Foco visible */
+  --foco: 2px solid var(--laguna-texto);
+
+  /* Tamaño mínimo de objetivos táctiles */
+  --toque-min: 44px;
+
+  /* ── Alias de compatibilidad (nombres del CSS existente) ─────────────────────
+     Elegidos según cómo se usa cada variable en el código:
+     --primary se usa sobre todo como COLOR DE TEXTO (27 veces) → --laguna-texto.
+     --primary-ui se usa en botones, bordes y outline de foco → --laguna-boton.
+     --outline-strong se usa como color de texto → --texto-2 (pasa 4.5:1). */
+  --primary: var(--laguna-texto);
+  --primary-text: var(--laguna-texto);
+  --primary-fill: var(--laguna);
+  --primary-ui: var(--laguna-boton);
+  --primary-soft: var(--bruma-suave);
+
+  --secondary: var(--laguna-texto);
+  --secondary-soft: var(--estado-confirmada-bg);
+  --tertiary: var(--laguna);
+  --tertiary-soft: var(--bruma);
+
+  --danger: var(--estado-cancelada-fg);
+  --danger-soft: var(--estado-cancelada-bg);
+  --warning: var(--tinta);
+  --warning-soft: var(--lima);
+
+  --background: var(--lienzo);
+  --surface: var(--blanco);
+  --surface-soft: var(--lienzo);
+  --surface-mid: var(--linea);
+  --text: var(--tinta);
+  --muted: var(--texto-2);
+  --outline: var(--linea);
+  --outline-strong: var(--texto-2);
+
+  --shadow: var(--sombra-suave);
+  --shadow-lg: var(--sombra-suave);
+}
